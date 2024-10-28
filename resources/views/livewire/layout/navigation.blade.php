@@ -36,7 +36,7 @@ new class extends Component {
                 <x-nav-link {{-- :href="route('series')" :active="request()->routeIs('series')" --}} wire:navigate>
                     {{ __('Series') }}
                 </x-nav-link>
-                <x-nav-link {{-- :href="route('movies')" :active="request()->routeIs('movies')" --}} wire:navigate>
+                <x-nav-link :href="route('movies.index')" :active="request()->routeIs('movies')" wire:navigate>
                     {{ __('Movies') }}
                 </x-nav-link>
                 <x-nav-link {{-- :href="route('laraflix')" :active="request()->routeIs('laraflix')" --}} wire:navigate>
