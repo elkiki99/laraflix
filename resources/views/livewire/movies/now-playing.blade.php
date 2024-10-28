@@ -4,27 +4,27 @@ use Livewire\Volt\Component;
 
 new class extends Component 
 {
-    public $popular = [];
+    public $nowPlaying = [];
 
     public function mount()
     {
-        $this->loadPopular();
+        $this->loadNowPlaying();
     }
 
-    public function loadPopular()
+    public function loadNowPlaying()
     {
-        $this->popular = Cache::remember('popular_movies', 3600, function () {
-            return Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/movie/popular')->json()['results'];
+        $this->nowPlaying = Cache::remember('now_playing_movies', 3600, function () {
+            return Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/movie/now_playing')->json()['results'];
         });
         $this->dispatch('livewireFetchedData');
     }
 }; ?>
 
 <div class="swiper">
-    <h2 class="my-4 text-2xl font-bold">Popular</h2>
+    <h2 class="my-4 text-2xl font-bold">Now playing</h2>
 
     <div class="swiper-wrapper">
-        @foreach ($popular as $index => $movie)
+        @foreach ($nowPlaying as $index => $movie)
             <div class="swiper-slide">
                 <x-movie-card :movie="$movie" :index="$index" />
             </div>
