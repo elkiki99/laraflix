@@ -1,5 +1,8 @@
 <x-app-layout>
     <div class="min-h-screen px-6 py-10 dark:text-white dark:bg-gray-900">
+        <!-- Genres -->
+        <livewire:genres.series-genres />
+        
         <!-- Airing today -->
         <livewire:series.airing-today />
         

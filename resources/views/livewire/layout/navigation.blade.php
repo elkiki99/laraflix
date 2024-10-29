@@ -39,14 +39,14 @@ new class extends Component {
                 <x-nav-link :href="route('movies.index')" :active="request()->routeIs('movies')" wire:navigate>
                     {{ __('Movies') }}
                 </x-nav-link>
-                <x-nav-link {{-- :href="route('laraflix')" :active="request()->routeIs('laraflix')" --}} wire:navigate>
+                <x-nav-link :href="route('laraflix')" :active="request()->routeIs('laraflix')" wire:navigate>
                     {{ __('Laraflix') }}
                 </x-nav-link>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden space-x-6 sm:flex sm:items-center sm:ms-6">
-                <a class="" href="">
+                <a class="" href="{{ route('search') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
                         stroke="currentColor" class="text-gray-600 hover size-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -54,7 +54,9 @@ new class extends Component {
                     </svg>
                 </a>
 
-                <a class="" href="">
+                <a class="" href="{{ route('watchlist'
+                        // , auth()->user()->id
+                        )}}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
                         stroke="currentColor" class="text-gray-600 hover size-6">
                         <path stroke-linecap="round" stroke-linejoin="round"

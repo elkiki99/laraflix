@@ -33,14 +33,4 @@ new class extends Component
 
     <div class="swiper-button-prev"></div>
     <div class="swiper-button-next"></div>
-    
-    <style>
-        .swiper {
-            width: full;
-            height: 400px;
-        }
-        .swiper-button-next, .swiper-button-prev {
-            color: white;
-        }
-    </style>
 </div>
