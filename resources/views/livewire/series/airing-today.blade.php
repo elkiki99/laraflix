@@ -21,7 +21,7 @@ new class extends Component
 }; ?>
 
 <div class="swiper">
-    <h2 class="my-4 text-2xl font-bold">Airing today</h2>
+    <h2 class="my-4 text-2xl font-bold text-whitew">Airing today</h2>
 
     <div class="swiper-wrapper">
         @foreach ($airingToday as $index => $series)

@@ -15,33 +15,37 @@
 
     <!-- Styles -->
     <style>
-        [x-cloak] { display: none !important; }
+        [x-cloak] {
+            display: none !important;
+        }
     </style>
-    
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div class="min-h-screen bg-gray-900">
         <div class="relative z-50">
-            <livewire:layout.navigation />
+            {{-- @if (request()->is('movies/*') || (request()->is('series/*') && !request()->is('series'))) --}}
+                <livewire:layout.navigation class="bg-transparent" />
+            {{-- @else
+                <livewire:layout.navigation class="bg-gray-800" />
+            @endif --}}
         </div>
-
-        <!-- Page Heading -->
-        @if (isset($header))
-            <header class="bg-white shadow dark:bg-gray-800">
-                <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endif
 
         <!-- Page Content -->
         <main>
             {{ $slot }}
         </main>
+
+        @if (request()->is('movie/*') || (request()->is('series/*') && !request()->is('series')))
+            <livewire:layout.footer class="bg-black" />
+        @else
+            <livewire:layout.footer class="bg-gray-900" />
+        @endif
     </div>
 </body>
+
 </html>

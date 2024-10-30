@@ -7,6 +7,8 @@ new class extends Component {
     /**
      * Log the current user out of the application.
      */
+    public $class;
+    
     public function logout(Logout $logout): void
     {
         $logout();
@@ -15,7 +17,7 @@ new class extends Component {
     }
 }; ?>
 
-<nav x-data="{ open: false }" class="bg-transparent">
+<nav x-data="{ open: false }" class="{{ $class }}">
     <!-- Primary Navigation Menu -->
     <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -23,7 +25,7 @@ new class extends Component {
                 <!-- Logo -->
                 <div class="flex items-center shrink-0">
                     <a href="{{ route('home') }}" wire:navigate>
-                        <x-application-logo class="block w-auto text-gray-800 fill-current h-9 dark:text-gray-200" />
+                        <x-application-logo class="block w-auto text-gray-200 fill-current h-9" />
                     </a>
                 </div>
             </div>
@@ -33,10 +35,10 @@ new class extends Component {
                 <x-nav-link :href="route('home')" :active="request()->routeIs('home')" wire:navigate>
                     {{ __('Home') }}
                 </x-nav-link>
-                <x-nav-link :href="route('series.index')" :active="request()->routeIs('series')" wire:navigate>
+                <x-nav-link :href="route('series.index')" :active="request()->routeIs('series.index')" wire:navigate>
                     {{ __('Series') }}
                 </x-nav-link>
-                <x-nav-link :href="route('movies.index')" :active="request()->routeIs('movies')" wire:navigate>
+                <x-nav-link :href="route('movies.index')" :active="request()->routeIs('movies.index')" wire:navigate>
                     {{ __('Movies') }}
                 </x-nav-link>
                 <x-nav-link :href="route('laraflix')" :active="request()->routeIs('laraflix')" wire:navigate>
@@ -46,19 +48,22 @@ new class extends Component {
 
             <!-- Settings Dropdown -->
             <div class="hidden space-x-6 sm:flex sm:items-center sm:ms-6">
-                <a class="" href="{{ route('search') }}">
+                <a class="{{ request()->routeIs('search') ? 'inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-100 focus:outline-none transition duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-400 hover:text-gray-300 hover:border-gray-700 focus:outline-none focus:text-gray-300 transition duration-150 ease-in-out' }}"
+                    href="{{ route('search') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
-                        stroke="currentColor" class="text-gray-600 hover size-6">
+                        stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                     </svg>
                 </a>
 
-                <a class="" href="{{ route('watchlist'
+                <a class="{{ request()->routeIs('watchlist') ? 'inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-100 focus:outline-none transition duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-400 hover:text-gray-300 hover:border-gray-700 focus:outline-none focus:text-gray-300 transition duration-150 ease-in-out' }}"
+                    href="{{ route(
+                        'watchlist',
                         // , auth()->user()->id
-                        )}}">
+                    ) }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
-                        stroke="currentColor" class="text-gray-600 hover size-6">
+                        stroke="currentColor" class=" size-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
                     </svg>
@@ -67,7 +72,7 @@ new class extends Component {
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-transparent border border-transparent rounded-md dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none">
+                            class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-400 transition duration-150 ease-in-out bg-transparent border border-transparent rounded-md hover:text-gray-300 focus:outline-none">
                             <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name"
                                 x-on:profile-updated.window="name = $event.detail.name"></div>
 
@@ -100,7 +105,7 @@ new class extends Component {
             <!-- Hamburger -->
             <div class="flex items-center -me-2 sm:hidden">
                 <button @click="open = ! open"
-                    class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400">
+                    class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-gray-400 hover:bg-gray-900 focus:outline-none focus:bg-gray-900 focus:text-gray-400">
                     <svg class="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
                             stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -122,10 +127,10 @@ new class extends Component {
         </div>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+        <div class="pt-4 pb-1 border-t border-gray-600">
             <div class="px-4">
-                <div class="text-base font-medium text-gray-800 dark:text-gray-200" x-data="{{ json_encode(['name' => auth()->user()->name]) }}"
-                    x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
+                <div class="text-base font-medium text-gray-200" x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name"
+                    x-on:profile-updated.window="name = $event.detail.name"></div>
                 <div class="text-sm font-medium text-gray-500">{{ auth()->user()->email }}</div>
             </div>
 

@@ -1,7 +1,7 @@
 @props(['series', 'index'])
 
 <div x-data="{ loaded: true }"
-    class="relative overflow-hidden transition duration-300 transform bg-gray-100 rounded-sm shadow-md hover:cursor-pointer dark:bg-gray-800 hover:shadow-xl hover:scale-105">
+    class="relative overflow-hidden transition duration-300 transform bg-gray-800 rounded-sm shadow-md hover:cursor-pointer hover:shadow-xl hover:scale-105">
     <div class="absolute inset-0 flex items-center justify-center" x-show="!loaded">
         <div class="w-8 h-8 border-4 border-gray-200 rounded-full border-t-gray-500 animate-spin"></div>
     </div>

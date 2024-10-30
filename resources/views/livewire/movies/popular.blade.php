@@ -3,7 +3,6 @@
 use Livewire\Volt\Component;
 
 new class extends Component {
-    // public $movieGenres = [];
     public $popularMovies = [];
 
     public function mount()
@@ -22,29 +21,17 @@ new class extends Component {
                 ->all();
         });
         $this->dispatch('livewireFetchedData');
-        // $this->loadMovieGenres();
     }
 
-    // public function loadMovieGenres()
-    // {
-    //     $genresArray = Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/genre/movie/list')->json()['genres'];
-    //     $genres = collect($genresArray)->mapWithKeys(fn($genre) => [$genre['id'] => $genre['name']]);
-    //     $this->movieGenres = $genres;
-    // }
 }; ?>
 
 <div class="swiper">
-    <h2 class="my-4 text-2xl font-bold">Popular</h2>
+    <h2 class="my-4 text-2xl font-bold text-white">Popular</h2>
 
     <div class="swiper-wrapper">
         @foreach ($popularMovies as $index => $movie)
             <div class="swiper-slide">
                 <x-movie-card :movie="$movie" :index="$index" />
-                {{-- <p>
-                    @foreach ($movie['genre_ids'] as $genre)
-                        {{ $movieGenres[$genre] ?? 'Unknown' }}@if (!$loop->last), @endif
-                    @endforeach
-                </p> --}}
             </div>
         @endforeach
     </div>
