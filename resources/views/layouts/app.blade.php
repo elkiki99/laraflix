@@ -28,11 +28,7 @@
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-900">
         <div class="relative z-50">
-            {{-- @if (request()->is('movies/*') || (request()->is('series/*') && !request()->is('series'))) --}}
-                <livewire:layout.navigation class="bg-transparent" />
-            {{-- @else
-                <livewire:layout.navigation class="bg-gray-800" />
-            @endif --}}
+            <livewire:layout.navigation class="bg-transparent" />
         </div>
 
         <!-- Page Content -->

@@ -6,24 +6,48 @@ new class extends Component {
     public $movie;
     public $image;
     public $trailerUrl;
+    public $cast = [];
     public $movieGenres = [];
-
+    public $recommendations = [];
+    
     public function mount($id)
     {
         $this->loadMovieGenres();
+        $this->loadMovieData($id);
+        $this->loadMovieImages($id);
+        $this->loadMovieCast($id);
+        $this->loadMovieTrailer($id);
+    }
 
+    protected function loadMovieData($id)
+    {
         $this->movie = Cache::remember("movies_{$id}", 3600, function () use ($id) {
             return Http::withToken(config('services.tmdb.token'))
                 ->get("https://api.themoviedb.org/3/movie/{$id}")
                 ->json();
         });
+    }
 
-        $this->image = Cache::remember("movies_{$id}_", 3600, function () use ($id) {
+    protected function loadMovieImages($id)
+    {
+        $this->image = Cache::remember("movies_{$id}_images", 3600, function () use ($id) {
             return Http::withToken(config('services.tmdb.token'))
                 ->get("https://api.themoviedb.org/3/movie/{$id}/images")
                 ->json();
         });
+    }
 
+    protected function loadMovieCast($id)
+    {
+        $this->cast = Cache::remember("movie_{$id}_cast", 3600, function () use ($id) {
+            return Http::withToken(config('services.tmdb.token'))
+                ->get("https://api.themoviedb.org/3/movie/{$id}/credits")
+                ->json();
+        });
+    }
+
+    protected function loadMovieTrailer($id)
+    {
         $trailers = Cache::remember("movies_{$id}_trailers", 3600, function () use ($id) {
             return Http::withToken(config('services.tmdb.token'))
                 ->get("https://api.themoviedb.org/3/movie/{$id}/videos")
@@ -38,9 +62,10 @@ new class extends Component {
         }
     }
 
-    public function loadMovieGenres()
+    protected function loadMovieGenres()
     {
         $genresArray = Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/genre/movie/list')->json()['genres'];
+
         $genres = collect($genresArray)->mapWithKeys(fn($genre) => [$genre['id'] => $genre['name']]);
         $this->movieGenres = $genres;
     }
@@ -48,12 +73,12 @@ new class extends Component {
 
 <div class="bg-black">
     <div class="z-30 w-full h-[90vh] mx-auto max-w-7xl">
-        <img src="https://image.tmdb.org/t/p/original{{ $image['backdrops'][0]['file_path'] }}"
+        <img src="https://image.tmdb.org/t/p/original{{ $image['backdrops'][0]['file_path'] ?? ''}}"
             class="absolute top-0 left-0 object-cover w-full h-full" alt="{{ $movie['title'] }}">
-            <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
 
         <div class="flex items-end justify-start h-[80vh]">
-            <div class="relative p-4 text-white">
+            <div class="z-10 p-4 text-white">
                 <div class="space-y-2">
                     <h2 class="font-bold text-7xl">{{ $movie['title'] }}</h2>
 
@@ -81,13 +106,28 @@ new class extends Component {
 
     <div class="relative h-full pb-10 mx-auto bg-black max-w-7xl">
         <div class="max-w-4xl px-4 pb-8 text-gray-300">
-            <p>{{ $movie['overview'] }}</p>
-            <p class="py-2 text-sm text-gray-500">
+            <!-- Overview -->
+            @if($movie['overview'])
+                <p>{{ $movie['overview'] }}</p>
+            @endif
+            
+            <!-- Cast -->
+            @if($this->cast)
+                <p class="py-2 text-sm text-gray-400">
+                    @foreach (array_slice($cast['cast'], 0, 5) as $actor)
+                        {{ $actor['name'] }}@if (!$loop->last),@endif
+                    @endforeach
+                </p>
+            @endif
+            
+            <!-- Genres -->
+            <p class="text-sm text-gray-500">
                 @foreach ($movie['genres'] as $genre)
-                    {{ $movieGenres[$genre['id']] ?? 'Unknown' }}@if(!$loop->last),@endif
+                    {{ $movieGenres[$genre['id']] ?? 'Unknown' }}@if (!$loop->last),@endif
                 @endforeach
             </p>
         </div>
+        
         @if ($trailerUrl)
             <div class="mx-auto max-w-7xl">
                 <div class="w-auto h-auto">
@@ -99,7 +139,7 @@ new class extends Component {
         @endif
 
         <div class="px-6 py-10">
-            <livewire:movies.popular />
+            <livewire:movies.recommendations :id="$movie['id']" />
         </div>
     </div>
 </div>

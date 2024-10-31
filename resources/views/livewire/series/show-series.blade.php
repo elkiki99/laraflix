@@ -17,7 +17,6 @@ new class extends Component {
                 ->get("https://api.themoviedb.org/3/tv/{$id}")
                 ->json();
         });
-        
         // dd($this->series);
 
         $this->image = Cache::remember("series_{$id}_", 3600, function () use ($id) {
@@ -41,7 +40,7 @@ new class extends Component {
     }
 
     public function loadSeriesGenres()
-    {
+    {   
         $genresArray = Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/genre/tv/list')->json()['genres'];
         $genres = collect($genresArray)->mapWithKeys(fn($genre) => [$genre['id'] => $genre['name']]);
         $this->seriesGenres = $genres;

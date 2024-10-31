@@ -35,15 +35,15 @@ new class extends Component {
                 <x-nav-link :href="route('home')" :active="request()->routeIs('home')" wire:navigate>
                     {{ __('Home') }}
                 </x-nav-link>
-                <x-nav-link :href="route('series.index')" :active="request()->routeIs('series.index')" wire:navigate>
-                    {{ __('Series') }}
-                </x-nav-link>
                 <x-nav-link :href="route('movies.index')" :active="request()->routeIs('movies.index')" wire:navigate>
                     {{ __('Movies') }}
                 </x-nav-link>
-                <x-nav-link :href="route('laraflix')" :active="request()->routeIs('laraflix')" wire:navigate>
-                    {{ __('Laraflix') }}
+                <x-nav-link :href="route('series.index')" :active="request()->routeIs('series.index')" wire:navigate>
+                    {{ __('Series') }}
                 </x-nav-link>
+                {{-- <x-nav-link :href="route('laraflix')" :active="request()->routeIs('laraflix')" wire:navigate>
+                    {{ __('Laraflix') }}
+                </x-nav-link> --}}
             </div>
 
             <!-- Settings Dropdown -->
