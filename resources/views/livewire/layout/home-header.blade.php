@@ -12,20 +12,19 @@ new class extends Component {
 
     public function loadTrendingMovies()
     {
-        $this->trendingMovies = Cache::remember('trending_movies', 3600, function () {
-            return collect(Http::withToken(config('services.tmdb.token'))
-                ->get('https://api.themoviedb.org/3/trending/movie/day')
-                ->json()['results']
-            )
-            // ->map(function ($movie) {
-            //     return [
-            //         'imgSrc' => 'https://image.tmdb.org/t/p/w500/' . $movie['backdrop_path'],
-            //         'imgAlt' => $movie['title'],
-            //         'title' => $movie['title'],
-            //         'description' => $movie['overview'],
-            //     ];
-            // })->toArray();
-            ;
+        $this->trendingMovies = Cache::remember('trending_movies', 360, function () {
+            return collect(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/trending/movie/day')->json()['results'])
+                ->map(function ($movie) {
+                    return [
+                        'id' => $movie['id'],
+                        'imgSrc' => 'https://image.tmdb.org/t/p/w500/' . $movie['backdrop_path'],
+                        'imgAlt' => $movie['title'],
+                        'title' => $movie['title'],
+                        'description' => $movie['overview'],
+                    ];
+                })
+                ->random(5)
+                ->toArray();
         });
         $this->dispatch('livewireFetchedData');
     }
@@ -33,30 +32,14 @@ new class extends Component {
 
 <div class="min-h-screen">
     <div x-data="{
-        slides: @json(
-            $trendingMovies->map(function ($movie) {
-                return [
-                    'imgSrc' => 'https://image.tmdb.org/t/p/w500/' . $movie['backdrop_path'],
-                    'imgAlt' => $movie['title'],
-                    'title' => $movie['title'],
-                    'description' => $movie['overview'],
-                ];
-            })),
-        currentSlideIndex: 1,
-        previous() {
-            if (this.currentSlideIndex > 1) {
-                this.currentSlideIndex = this.currentSlideIndex - 1
-            } else {
-                this.currentSlideIndex = this.slides.length
-            }
-        },
+        slides: {{ json_encode($trendingMovies) }},
+        currentSlideIndex: 0,
         next() {
-            if (this.currentSlideIndex < this.slides.length) {
-                this.currentSlideIndex = this.currentSlideIndex + 1
-            } else {
-                this.currentSlideIndex = 1
-            }
+            this.currentSlideIndex = (this.currentSlideIndex + 1) % this.slides.length;
         },
+        previous() {
+            this.currentSlideIndex = (this.currentSlideIndex - 1 + this.slides.length) % this.slides.length;
+        }
     }" class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-gray-900">
         <div class="absolute inset-0 z-20 bg-gradient-to-b from-black via-transparent to-gray-900"></div>
 
@@ -96,8 +79,7 @@ new class extends Component {
                     </div>
 
                     <!-- Image -->
-                    <img src="{{ asset('storage/bg-guest.jpg') }}"
-                        class="absolute top-0 left-0 object-cover w-full h-full" alt=""
+                    <img class="absolute top-0 left-0 object-cover w-full h-full" alt=""
                         x-bind:src="slide.imgSrc" x-bind:alt="slide.imgAlt">
                 </div>
             </template>
