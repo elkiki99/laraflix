@@ -8,16 +8,16 @@ new class extends Component {
      * Log the current user out of the application.
      */
     public $class;
-    
+
     public function logout(Logout $logout): void
-    {
+    {   
         $logout();
 
         $this->redirect('/', navigate: true);
     }
 }; ?>
 
-<nav x-data="{ open: false }" class="{{ $class }}">
+<nav x-data="{ open: false }" class="{{ $class }} ">
     <!-- Primary Navigation Menu -->
     <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -41,13 +41,10 @@ new class extends Component {
                 <x-nav-link :href="route('series.index')" :active="request()->routeIs('series.index')" wire:navigate>
                     {{ __('Series') }}
                 </x-nav-link>
-                {{-- <x-nav-link :href="route('laraflix')" :active="request()->routeIs('laraflix')" wire:navigate>
-                    {{ __('Laraflix') }}
-                </x-nav-link> --}}
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden space-x-6 sm:flex sm:items-center sm:ms-6">
+            <div class="flex items-center space-x-2 md:space-x-6 ms-6">
                 <a class="{{ request()->routeIs('search') ? 'inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-100 focus:outline-none transition duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-400 hover:text-gray-300 hover:border-gray-700 focus:outline-none focus:text-gray-300 transition duration-150 ease-in-out' }}"
                     href="{{ route('search') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
@@ -88,10 +85,20 @@ new class extends Component {
                     </x-slot>
 
                     <x-slot name="content">
+                        <div class="block sm:hidden">
+                            <x-dropdown-link :href="route('movies.index')" wire:navigate>
+                                {{ __('Movies') }}
+                            </x-dropdown-link>
+
+                            <x-dropdown-link :href="route('series.index')" wire:navigate>
+                                {{ __('Series') }}
+                            </x-dropdown-link>
+                        </div>
+                        
                         <x-dropdown-link :href="route('profile')" wire:navigate>
                             {{ __('Profile') }}
                         </x-dropdown-link>
-
+                        
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
                             <x-dropdown-link>
@@ -100,20 +107,6 @@ new class extends Component {
                         </button>
                     </x-slot>
                 </x-dropdown>
-            </div>
-
-            <!-- Hamburger -->
-            <div class="flex items-center -me-2 sm:hidden">
-                <button @click="open = ! open"
-                    class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-gray-400 hover:bg-gray-900 focus:outline-none focus:bg-gray-900 focus:text-gray-400">
-                    <svg class="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
-                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round"
-                            stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
             </div>
         </div>
     </div>

@@ -27,9 +27,14 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-900">
+
         <div class="relative z-50">
             <livewire:layout.navigation class="bg-transparent" />
         </div>
+
+        @if (request()->routeIs('home'))
+            <livewire:layout.home-header />
+        @endif
 
         <!-- Page Content -->
         <main>

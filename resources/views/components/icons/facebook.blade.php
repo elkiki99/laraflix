@@ -1,6 +1,6 @@
 @props(['size' => '', 'bgColor' => '', 'color' => ''])
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 42" fill="{{ $bgColor }}" class="{{ $color }} {{ $size }}" preserveAspectRatio="xMidYMid">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 44" fill="{{ $bgColor }}" class="{{ $color }} {{ $size }}" preserveAspectRatio="xMidYMid">
     <path
         d="M15 35.8C6.5 34.3 0 26.9 0 18 0 8.1 8.1 0 18 0s18 8.1 18 18c0 8.9-6.5 16.3-15 17.8l-1-.8h-4l-1 .8z" />
     <path fill="currentColor"
