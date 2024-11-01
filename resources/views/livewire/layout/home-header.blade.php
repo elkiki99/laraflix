@@ -66,7 +66,7 @@ new class extends Component {
         <!-- Slides -->
         <div class="relative w-full min-h-screen">
             <template x-for="(slide, index) in slides">
-                <div x-cloak x-show="currentSlideIndex == index + 1" class="absolute inset-0"
+                <div x-cloak x-show="currentSlideIndex == index" class="absolute inset-0"
                     x-transition.opacity.duration.1000ms>
 
                     <!-- Title and description -->
@@ -89,8 +89,8 @@ new class extends Component {
         <div class="absolute rounded-xl bottom-3 md:bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-4 md:gap-3 px-1.5 py-1 md:px-2"
             role="group" aria-label="slides">
             <template x-for="(slide, index) in slides">
-                <button class="transition rounded-full cursor-pointer size-2" x-on:click="currentSlideIndex = index + 1"
-                    x-bind:class="[currentSlideIndex === index + 1 ? 'bg-slate-300' : 'bg-slate-300/50']"
+                <button class="transition rounded-full cursor-pointer size-2" x-on:click="currentSlideIndex = index"
+                    x-bind:class="[currentSlideIndex === index ? 'bg-slate-300' : 'bg-slate-300/50']"
                     x-bind:aria-label="'slide ' + (index + 1)"></button>
             </template>
         </div>
