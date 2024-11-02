@@ -17,7 +17,7 @@ new class extends Component {
                 ->map(function ($movie) {
                     return [
                         'id' => $movie['id'],
-                        'imgSrc' => 'https://image.tmdb.org/t/p/w500/' . $movie['backdrop_path'],
+                        'imgSrc' => 'https://image.tmdb.org/t/p/original/' . $movie['backdrop_path'],
                         'imgAlt' => $movie['title'],
                         'title' => $movie['title'],
                         'description' => $movie['overview'],
@@ -32,50 +32,53 @@ new class extends Component {
 
 <div class="min-h-screen">
     <div x-data="{
-        slides: {{ json_encode($trendingMovies) }},
-        currentSlideIndex: 0,
-        next() {
-            this.currentSlideIndex = (this.currentSlideIndex + 1) % this.slides.length;
-        },
-        previous() {
-            this.currentSlideIndex = (this.currentSlideIndex - 1 + this.slides.length) % this.slides.length;
-        }
-    }" class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-gray-900">
+            slides: {{ json_encode($trendingMovies) }},
+            currentSlideIndex: 0,
+            next() {
+                this.currentSlideIndex = (this.currentSlideIndex + 1) % this.slides.length;
+            },
+            previous() {
+                this.currentSlideIndex = (this.currentSlideIndex - 1 + this.slides.length) % this.slides.length;
+            }
+        }" 
+        x-init="setInterval(() => previous(), 10000)" 
+        class="absolute inset-0"
+    >
         <div class="absolute inset-0 z-20 bg-gradient-to-b from-black via-transparent to-gray-900"></div>
-
-        <!-- Previous button -->
-        <button type="button"
-            class="absolute z-20 flex items-center justify-center p-2 transition -translate-y-1/2 rounded-full left-5 top-1/2 bg-white/40 text-slate-700 hover:bg-white/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 active:outline-offset-0 dark:bg-slate-900/40 dark:text-slate-300 dark:hover:bg-slate-900/60 dark:focus-visible:outline-blue-600"
-            aria-label="previous slide" x-on:click="previous()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none"
-                stroke-width="3" class="size-5 md:size-6 pr-0.5" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-            </svg>
-        </button>
-
-        <!-- Next button -->
-        <button type="button"
-            class="absolute z-20 flex items-center justify-center p-2 transition -translate-y-1/2 rounded-full right-5 top-1/2 bg-white/40 text-slate-700 hover:bg-white/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 active:outline-offset-0 dark:bg-slate-900/40 dark:text-slate-300 dark:hover:bg-slate-900/60 dark:focus-visible:outline-blue-600"
-            aria-label="next slide" x-on:click="next()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none"
-                stroke-width="3" class="size-5 md:size-6 pl-0.5" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
-        </button>
 
         <!-- Slides -->
         <div class="relative w-full min-h-screen">
             <template x-for="(slide, index) in slides">
-                <div x-cloak x-show="currentSlideIndex == index" class="absolute inset-0"
-                    x-transition.opacity.duration.1000ms>
+                <div x-show="currentSlideIndex == index" class="absolute inset-0" x-transition.scale.origin.right>
 
                     <!-- Title and description -->
-                    <div
-                        class="absolute inset-0 z-10 flex flex-col items-center justify-end gap-2 px-16 py-12 text-center lg:px-32 lg:py-14 bg-gradient-to-t from-slate-900/85 to-transparent">
-                        <h3 class="w-full lg:w-[80%] text-balance text-2xl lg:text-3xl font-bold text-white"
-                            x-text="slide.title" x-bind:aria-describedby="'slide' + (index + 1) + 'Description'"></h3>
-                        <p class="w-full text-sm lg:w-1/2 text-pretty text-slate-300" x-text="slide.description"
-                            x-bind:id="'slide' + (index + 1) + 'Description'"></p>
+                    <div class="flex items-end justify-start h-[90vh] mx-auto max-w-7xl">
+                        <div class="z-20 p-4 text-white">
+                            <div class="space-y-2">
+                                <h2 class="font-bold text-7xl" x-text="slide.title"
+                                    x-bind:aria-describedby="'slide' + (index + 1) + 'Description'"></h2>
+
+                                <div class="flex items-center gap-3 text-gray-300">
+                                    <p x-text="slide.description" x-bind:id="'slide' + (index + 1) + 'Description'"></p>
+                                </div>
+
+                                <div class="">
+                                    <a :href="`{{ route('movies.show', '') }}/${slide.id}`">
+                                        <x-primary-button class="absolute px-16 hover:cursor-pointer">
+                                            <div class="flex items-center gap-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                    fill="currentColor" class="text-black size-6">
+                                                    <path fill-rule="evenodd"
+                                                        d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
+                                                <p class="font-bold text-black">Watch now</p>
+                                            </div>
+                                        </x-primary-button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Image -->
