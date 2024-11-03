@@ -11,20 +11,13 @@ new class extends Component {
     public function mount($id)
     {
         $this->loadSeriesGenres();
+        $this->loadSeriesData($id);
+        $this->loadSeriesImages($id);
+        $this->loadSeriesTrailer($id);
+    }
 
-        $this->series = Cache::remember("series_{$id}", 3600, function () use ($id) {
-            return Http::withToken(config('services.tmdb.token'))
-                ->get("https://api.themoviedb.org/3/tv/{$id}")
-                ->json();
-        });
-        // dd($this->series);
-
-        $this->image = Cache::remember("series_{$id}_", 3600, function () use ($id) {
-            return Http::withToken(config('services.tmdb.token'))
-                ->get("https://api.themoviedb.org/3/tv/{$id}/images")
-                ->json();
-        });
-
+    public function loadSeriesTrailer($id)
+    {
         $trailers = Cache::remember("series_{$id}_trailers", 3600, function () use ($id) {
             return Http::withToken(config('services.tmdb.token'))
                 ->get("https://api.themoviedb.org/3/tv/{$id}/videos")
@@ -39,8 +32,26 @@ new class extends Component {
         }
     }
 
+    public function loadSeriesImages($id)
+    {
+        $this->image = Cache::remember("series_{$id}_", 3600, function () use ($id) {
+            return Http::withToken(config('services.tmdb.token'))
+                ->get("https://api.themoviedb.org/3/tv/{$id}/images")
+                ->json();
+        });
+    }
+
+    public function loadSeriesData($id)
+    {
+        $this->series = Cache::remember("series_{$id}", 3600, function () use ($id) {
+            return Http::withToken(config('services.tmdb.token'))
+                ->get("https://api.themoviedb.org/3/tv/{$id}")
+                ->json();
+        });
+    }
+
     public function loadSeriesGenres()
-    {   
+    {
         $genresArray = Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/genre/tv/list')->json()['genres'];
         $genres = collect($genresArray)->mapWithKeys(fn($genre) => [$genre['id'] => $genre['name']]);
         $this->seriesGenres = $genres;
@@ -51,7 +62,7 @@ new class extends Component {
     <div class="z-30 w-full h-[90vh] mx-auto max-w-7xl">
         <img src="https://image.tmdb.org/t/p/original{{ $image['backdrops'][0]['file_path'] }}"
             class="absolute top-0 left-0 object-cover w-full h-full" alt="{{ $series['name'] }}">
-            <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
 
         <div class="flex items-end justify-start h-[80vh]">
             <div class="relative p-4 text-white">
@@ -85,7 +96,9 @@ new class extends Component {
             <p>{{ $series['overview'] }}</p>
             <p class="py-2 text-sm text-gray-500">
                 @foreach ($series['genres'] as $genre)
-                    {{ $seriesGenres[$genre['id']] ?? 'Unknown' }}@if (!$loop->last),@endif
+                    {{ $seriesGenres[$genre['id']] ?? 'Unknown' }}@if (!$loop->last)
+                        ,
+                    @endif
                 @endforeach
             </p>
         </div>

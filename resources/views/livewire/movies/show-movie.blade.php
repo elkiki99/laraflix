@@ -14,7 +14,6 @@ new class extends Component {
     {
         $this->loadMovieGenres();
         $this->loadMovieData($id);
-        $this->loadMovieImages($id);
         $this->loadMovieCast($id);
         $this->loadMovieTrailer($id);
     }
@@ -24,15 +23,6 @@ new class extends Component {
         $this->movie = Cache::remember("movies_{$id}", 3600, function () use ($id) {
             return Http::withToken(config('services.tmdb.token'))
                 ->get("https://api.themoviedb.org/3/movie/{$id}")
-                ->json();
-        });
-    }
-
-    protected function loadMovieImages($id)
-    {
-        $this->image = Cache::remember("movies_{$id}_images", 3600, function () use ($id) {
-            return Http::withToken(config('services.tmdb.token'))
-                ->get("https://api.themoviedb.org/3/movie/{$id}/images")
                 ->json();
         });
     }
@@ -73,7 +63,7 @@ new class extends Component {
 
 <div class="bg-black">
     <div class="z-30 w-full h-[90vh] mx-auto max-w-7xl">
-        <img src="https://image.tmdb.org/t/p/original{{ $image['backdrops'][0]['file_path'] ?? ''}}"
+        <img src="https://image.tmdb.org/t/p/original{{ $movie['backdrop_path'] ?? ''}}"
             class="absolute top-0 left-0 object-cover w-full h-full" alt="{{ $movie['title'] }}">
         <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
 
