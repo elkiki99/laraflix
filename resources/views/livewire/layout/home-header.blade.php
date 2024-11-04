@@ -44,7 +44,7 @@ new class extends Component {
         x-init="setInterval(() => previous(), 10000)" 
         class="absolute inset-0"
     >
-        <div class="absolute inset-0 z-20 bg-gradient-to-b from-black via-transparent to-gray-900"></div>
+        <div class="absolute inset-0 z-20 bg-gradient-to-b from-black via-transparent to-gray-950"></div>
 
         <!-- Slides -->
         <div class="relative w-full min-h-screen">

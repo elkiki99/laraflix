@@ -26,7 +26,7 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div class="flex flex-col min-h-screen bg-gray-900">
+    <div class="flex flex-col min-h-screen bg-gray-950">
 
         <div class="relative z-50">
             <livewire:layout.navigation class="bg-transparent" />
@@ -44,7 +44,7 @@
         @if (request()->is('movie/*') || (request()->is('series/*') && !request()->is('series')))
             <livewire:layout.footer class="bg-black" />
         @else
-            <livewire:layout.footer class="bg-gray-900" />
+            <livewire:layout.footer class="bg-gray-950" />
         @endif
     </div>
 </body>

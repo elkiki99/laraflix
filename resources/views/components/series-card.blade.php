@@ -8,7 +8,7 @@
 
     <a href="{{ route('series.show', $series['id']) }}">
         <img loading="{{ $index < 6 ? 'eager' : 'lazy' }}"
-            src="https://image.tmdb.org/t/p/w500{{ $series['backdrop_path'] }}" alt="{{ $series['name'] }}"
+            src="https://image.tmdb.org/t/p/w500{{ $series['poster_path'] }}" alt="{{ $series['name'] }}"
             class="object-cover w-full transition duration-500 ease-in-out opacity-0 h-80" @load="loaded = true"
             :class="loaded ? 'opacity-100' : 'opacity-0'">
     </a>

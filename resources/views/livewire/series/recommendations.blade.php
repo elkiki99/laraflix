@@ -16,9 +16,9 @@ new class extends Component {
 
     protected function loadRecommendations()
     {
-        $this->recommendations = Cache::remember("movies_{$this->id}_recommendations", 3600, function () {
+        $this->recommendations = Cache::remember("series{$this->id}_recommendations", 3600, function () {
             $response = Http::withToken(config('services.tmdb.token'))
-                ->get("https://api.themoviedb.org/3/movie/{$this->id}/similar")
+                ->get("https://api.themoviedb.org/3/tv/{$this->id}/similar")
                 ->json();
             return isset($response['results']) ? collect($response['results']) : collect([]);
         });
@@ -33,15 +33,15 @@ new class extends Component {
 
             <div class="swiper-wrapper">
                 @if (isset($recommendations['results']))
-                    @foreach ($recommendations['results'] as $index => $movie)
+                    @foreach ($recommendations['results'] as $index => $series)
                         <div class="swiper-slide">
-                            <x-movie-card :movie="$movie" :index="$index" />
+                            <x-series-card :series="$series" :index="$index" />
                         </div>
                     @endforeach
                 @else
-                    @foreach ($recommendations as $index => $movie)
+                    @foreach ($recommendations as $index => $series)
                         <div class="swiper-slide">
-                            <x-movie-card :movie="$movie" :index="$index" />
+                            <x-series-card :series="$series" :index="$index" />
                         </div>
                     @endforeach
                 @endif

@@ -9,7 +9,7 @@ new class extends Component {
     public $cast = [];
     public $movieGenres = [];
     public $recommendations = [];
-    
+
     public function mount($id)
     {
         $this->loadMovieGenres();
@@ -63,7 +63,7 @@ new class extends Component {
 
 <div class="bg-black">
     <div class="z-30 w-full h-[90vh] mx-auto max-w-7xl">
-        <img src="https://image.tmdb.org/t/p/original{{ $movie['backdrop_path'] ?? ''}}"
+        <img src="https://image.tmdb.org/t/p/original{{ $movie['backdrop_path'] ?? '' }}"
             class="absolute top-0 left-0 object-cover w-full h-full" alt="{{ $movie['title'] }}">
         <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
 
@@ -95,29 +95,34 @@ new class extends Component {
     </div>
 
     <div class="relative h-full pb-10 mx-auto bg-black max-w-7xl">
-        <div class="max-w-4xl px-4 pb-8 text-gray-300">
+        <div class="max-w-4xl px-4 pb-8 space-y-1 text-gray-300">
             <!-- Overview -->
-            @if($movie['overview'])
+            @if ($movie['overview'])
                 <p>{{ $movie['overview'] }}</p>
             @endif
             
+            <!-- Genres -->
+            <p class="text-sm text-gray-400">
+                @foreach ($movie['genres'] as $genre)
+                    {{ $movieGenres[$genre['id']] ?? 'Unknown' }}@if (!$loop->last)
+                        ,
+                    @endif
+                @endforeach
+            </p>
+            
             <!-- Cast -->
-            @if($this->cast)
-                <p class="py-2 text-sm text-gray-400">
+            @if ($this->cast)
+                <p class="text-xs text-gray-500">
                     @foreach (array_slice($cast['cast'], 0, 5) as $actor)
-                        {{ $actor['name'] }}@if (!$loop->last),@endif
+                        {{ $actor['name'] }}@if (!$loop->last)
+                            ,
+                        @endif
                     @endforeach
                 </p>
             @endif
-            
-            <!-- Genres -->
-            <p class="text-sm text-gray-500">
-                @foreach ($movie['genres'] as $genre)
-                    {{ $movieGenres[$genre['id']] ?? 'Unknown' }}@if (!$loop->last),@endif
-                @endforeach
-            </p>
+
         </div>
-        
+
         @if ($trailerUrl)
             <div class="mx-auto max-w-7xl">
                 <div class="w-auto h-auto">

@@ -37,7 +37,6 @@ Livewire.on("livewireFetchedData", () => {
             document.querySelector("#episode-swiper");
 
         if (episodeSwiperContainer) {
-            // Destruir la instancia existente si existe
             if (
                 episodeSwiperInstance &&
                 typeof episodeSwiperInstance.destroy === "function"
@@ -45,7 +44,6 @@ Livewire.on("livewireFetchedData", () => {
                 episodeSwiperInstance.destroy(true, true);
             }
 
-            // Inicializar una nueva instancia de Swiper para episodios
             episodeSwiperInstance = new Swiper(episodeSwiperContainer, {
                 spaceBetween: 10,
                 slidesPerView: 2,
@@ -75,5 +73,5 @@ Livewire.on("livewireFetchedData", () => {
                 },
             });
         }
-    }, 0); // Un breve retardo permite que el DOM se actualice
+    }, 0);
 });

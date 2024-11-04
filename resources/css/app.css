@@ -2,12 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
-/* <style> */
 .swiper {
     width: full;
     height: 400px;
+
+    .swiper-button-next, .swiper-button-prev {
+        color: white;
+    }
 }
-.swiper-button-next, .swiper-button-prev {
-    color: white;
+
+.episode-swiper {
+    position: relative;
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        position: absolute;
+        top: 35%;
+        transform: translateY(-50%);
+        z-index: 10;
+        color: white;
+        margin-left: 10px;
+        margin-right: 10px;
+
+        &.swiper-button-prev {
+            left: 0;
+        }
+
+        &.swiper-button-next {
+            right: 0;
+        }
+
+        &.swiper-button-disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+    }
 }
-/* </style> */
