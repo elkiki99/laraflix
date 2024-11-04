@@ -7,9 +7,8 @@ new class extends Component {
 
 }; ?>
 
-{{-- @dd(request()); --}}
 
-<footer class="p-10 {{ $class }}">
+<footer class="p-10 mt-auto {{ $class }}">
     <div class="flex items-center justify-between mx-auto max-w-7xl">
         <!-- Socials -->
         <div class="flex items-center space-x-4">

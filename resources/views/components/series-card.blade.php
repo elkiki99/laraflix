@@ -13,3 +13,4 @@
             :class="loaded ? 'opacity-100' : 'opacity-0'">
     </a>
 </div>
+    
