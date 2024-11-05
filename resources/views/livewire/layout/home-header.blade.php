@@ -1,19 +1,23 @@
 <?php
 
 use Livewire\Volt\Component;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 
 new class extends Component {
     public $trendingMovies = [];
 
     public function mount()
     {
-        $this->loadTrendingMovies();
-    }
+        $this->loadTrendingMoviesAndSeries();
+    }   
 
-    public function loadTrendingMovies()
+    public function loadTrendingMoviesAndSeries()
     {
         $this->trendingMovies = Cache::remember('home_header', 360, function () {
-            return collect(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/trending/movie/day')->json()['results'])
+            $movies = collect(Http::withToken(config('services.tmdb.token'))
+                ->get('https://api.themoviedb.org/3/trending/movie/day')
+                ->json()['results'])
                 ->map(function ($movie) {
                     return [
                         'id' => $movie['id'],
@@ -21,12 +25,31 @@ new class extends Component {
                         'imgAlt' => $movie['title'],
                         'title' => $movie['title'],
                         'description' => $movie['overview'],
+                        'type' => 'movie',
                     ];
                 })
                 ->shuffle()
-                ->random(8)
-                ->toArray();
+                ->take(4);
+
+            $tvShows = collect(Http::withToken(config('services.tmdb.token'))
+                ->get('https://api.themoviedb.org/3/trending/tv/day')
+                ->json()['results'])
+                ->map(function ($show) {
+                    return [
+                        'id' => $show['id'],
+                        'imgSrc' => 'https://image.tmdb.org/t/p/original/' . $show['backdrop_path'],
+                        'imgAlt' => $show['name'],
+                        'title' => $show['name'],
+                        'description' => $show['overview'],
+                        'type' => 'tv',
+                    ];
+                })
+                ->shuffle()
+                ->take(4);
+
+            return $movies->merge($tvShows)->shuffle()->toArray();
         });
+
         $this->dispatch('livewireFetchedData');
     }
 }; ?>
