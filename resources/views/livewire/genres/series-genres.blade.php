@@ -38,7 +38,7 @@ new class extends Component {
         <x-slot name="content">
             <div class="grid grid-cols-3 gap-1 p-1">
                 @foreach ($seriesGenres as $genre)
-                    <x-dropdown-link class="hover:cursor-pointer" wire:navigate>
+                    <x-dropdown-link href="{{ route('series.genres', $genre['id'])}}" wire:navigate>
                         {{ $genre['name'] }}
                     </x-dropdown-link>
                 @endforeach

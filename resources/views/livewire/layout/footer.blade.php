@@ -14,7 +14,7 @@ new class extends Component {
         <div class="flex items-center space-x-4">
             <a href="https://facebook.com" target="_blank">
                 <x-icons.facebook size="size-6" color="hover:text-gray-200 text-gray-400"
-                    bgColor="{{ request()->is('movie/*') || request()->is('series/*') ? '#000000' : '#030712' }}" />
+                    bgColor="{{ request()->is('movie/*') || (request()->is('series/*') && !request()->is('series') && !request()->is('series/genre/*')) ? '#000000' : '#030712' }}" />
             </a>
             <a href="https://twitter.com" target="_blank">
                 <x-icons.twitter size="size-4" color="hover:text-gray-200 text-gray-400" />
@@ -24,7 +24,7 @@ new class extends Component {
             </a>
             <a href="https://youtube.com" target="_blank">
                 <x-icons.youtube size="size-5" color="hover:text-gray-200 text-gray-400"
-                    bgColor="{{ request()->is('movie/*') || request()->is('series/*') ? '#000000' : '#030712' }}" />
+                    bgColor="{{ request()->is('movie/*') || (request()->is('series/*') && !request()->is('series') && !request()->is('series/genre/*')) ? '#000000' : '#030712' }}" />
             </a>
         </div>
 

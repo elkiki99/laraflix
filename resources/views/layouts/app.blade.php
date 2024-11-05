@@ -45,7 +45,7 @@
             {{ $slot }}
         </main>
 
-        @if (request()->is('movie/*') || (request()->is('series/*') && !request()->is('series')))
+        @if (request()->is('movie/*') || (request()->is('series/*') && !request()->is('series') && !request()->is('series/genre/*')))
             <livewire:layout.footer class="bg-black" />
         @else
             <livewire:layout.footer class="bg-gray-950" />
