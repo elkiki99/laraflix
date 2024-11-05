@@ -3,24 +3,24 @@
 use Livewire\Volt\Component;
 
 new class extends Component {
-    public $trendingMovies = [];
+    public $trendingSeries = [];
 
     public function mount()
     {
-        $this->loadTrendingMovies();
+        $this->loadtrendingSeries();
     }
 
-    public function loadTrendingMovies()
+    public function loadtrendingSeries()
     {
-        $this->trendingMovies = Cache::remember('home_header', 360, function () {
-            return collect(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/trending/movie/day')->json()['results'])
-                ->map(function ($movie) {
+        $this->trendingSeries = Cache::remember('series_header', 360, function () {
+            return collect(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/trending/tv/day')->json()['results'])
+                ->map(function ($serie) {
                     return [
-                        'id' => $movie['id'],
-                        'imgSrc' => 'https://image.tmdb.org/t/p/original/' . $movie['backdrop_path'],
-                        'imgAlt' => $movie['title'],
-                        'title' => $movie['title'],
-                        'description' => $movie['overview'],
+                        'id' => $serie['id'],
+                        'imgSrc' => 'https://image.tmdb.org/t/p/original/' . $serie['backdrop_path'],
+                        'imgAlt' => $serie['name'],
+                        'title' => $serie['name'],
+                        'description' => $serie['overview'],
                     ];
                 })
                 ->shuffle()
@@ -33,7 +33,7 @@ new class extends Component {
 
 <div class="min-h-screen">
     <div x-data="{
-            slides: {{ json_encode($trendingMovies) }},
+            slides: {{ json_encode($trendingSeries) }},
             currentSlideIndex: 0,
             next() {
                 this.currentSlideIndex = (this.currentSlideIndex + 1) % this.slides.length;
@@ -64,7 +64,7 @@ new class extends Component {
                                 </div>
 
                                 <div class="">
-                                    <a :href="`{{ route('movies.show', '') }}/${slide.id}`">
+                                    <a :href="`{{ route('series.show', '') }}/${slide.id}`">
                                         <x-primary-button class="absolute px-16 hover:cursor-pointer">
                                             <div class="flex items-center gap-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"

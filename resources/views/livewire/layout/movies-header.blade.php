@@ -12,7 +12,7 @@ new class extends Component {
 
     public function loadTrendingMovies()
     {
-        $this->trendingMovies = Cache::remember('home_header', 360, function () {
+        $this->trendingMovies = Cache::remember('movies_header', 360, function () {
             return collect(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/trending/movie/day')->json()['results'])
                 ->map(function ($movie) {
                     return [

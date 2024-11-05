@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="min-h-screen px-6 py-10 text-white">
+    <div class="px-4 sm:px-6 lg:px-8">
         <!-- Genres -->
         <livewire:genres.series-genres />
         

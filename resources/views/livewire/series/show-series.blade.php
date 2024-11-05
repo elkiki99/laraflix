@@ -129,9 +129,7 @@ new class extends Component {
             <!-- Genre -->
             <p class="text-sm text-gray-400">
                 @foreach ($series['genres'] as $genre)
-                    {{ $seriesGenres[$genre['id']] ?? '' }}@if (!$loop->last)
-                        ,
-                    @endif
+                    {{ $seriesGenres[$genre['id']] ?? '' }}@if (!$loop->last),@endif
                 @endforeach
             </p>
 
@@ -139,9 +137,7 @@ new class extends Component {
             @if ($this->cast)
                 <p class="text-xs text-gray-500">
                     @foreach (array_slice($this->cast['cast'], 0, 5) as $actor)
-                        {{ $actor['name'] }}@if (!$loop->last)
-                            ,
-                        @endif
+                        {{ $actor['name'] }}@if (!$loop->last),@endif
                     @endforeach
                 </p>
             @endif

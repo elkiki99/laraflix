@@ -104,9 +104,7 @@ new class extends Component {
             <!-- Genres -->
             <p class="text-sm text-gray-400">
                 @foreach ($movie['genres'] as $genre)
-                    {{ $movieGenres[$genre['id']] ?? 'Unknown' }}@if (!$loop->last)
-                        ,
-                    @endif
+                    {{ $movieGenres[$genre['id']] ?? 'Unknown' }}@if (!$loop->last),@endif
                 @endforeach
             </p>
             
@@ -114,9 +112,7 @@ new class extends Component {
             @if ($this->cast)
                 <p class="text-xs text-gray-500">
                     @foreach (array_slice($cast['cast'], 0, 5) as $actor)
-                        {{ $actor['name'] }}@if (!$loop->last)
-                            ,
-                        @endif
+                        {{ $actor['name'] }}@if (!$loop->last),@endif
                     @endforeach
                 </p>
             @endif
@@ -135,6 +131,6 @@ new class extends Component {
 
         <div class="px-6 py-10">
             <livewire:movies.recommendations :id="$movie['id']" />
-        </div>
+        </div>*
     </div>
 </div>

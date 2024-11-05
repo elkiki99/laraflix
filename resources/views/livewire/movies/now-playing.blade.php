@@ -14,7 +14,7 @@ new class extends Component
     public function loadNowPlaying()
     {
         $this->nowPlaying = Cache::remember('now_playing_movies', 3600, function () {
-            return Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/movie/now_playing')->json()['results'];
+            return collect(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/movie/now_playing')->json()['results'])->shuffle();
         });
         $this->dispatch('livewireFetchedData');
     }

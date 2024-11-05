@@ -14,7 +14,7 @@ new class extends Component
     public function loadTopRated()
     {
         $this->topRated = Cache::remember('top_rated_movies', 3600, function () {
-            return Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/movie/top_rated')->json()['results'];
+            return collect(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/movie/top_rated')->json()['results'])->shuffle();
         });
         $this->dispatch('livewireFetchedData');
     }

@@ -14,7 +14,7 @@ new class extends Component
     public function loadAiringToday()
     {
         $this->airingToday = Cache::remember('airing_today', 3600, function () {
-            return Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/tv/airing_today')->json()['results'];
+            return collect(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/tv/airing_today')->json()['results'])->shuffle();
         });
         $this->dispatch('livewireFetchedData');
     }

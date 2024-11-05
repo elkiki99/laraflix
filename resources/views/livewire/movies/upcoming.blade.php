@@ -14,7 +14,7 @@ new class extends Component
     public function loadUpcoming()
     {
         $this->upcoming = Cache::remember('upcoming_movies', 3600, function () {
-            return Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/movie/upcoming')->json()['results'];
+            return collect(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/movie/upcoming')->json()['results'])->shuffle();
         });
         $this->dispatch('livewireFetchedData');
     }

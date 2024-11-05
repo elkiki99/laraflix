@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="min-h-screen px-6">
+    <div class="px-4 sm:px-6 lg:px-8">
         <livewire:movies.popular />
         <livewire:movies.now-playing />
         <livewire:movies.upcoming />

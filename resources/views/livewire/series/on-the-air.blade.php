@@ -14,7 +14,7 @@ new class extends Component
     public function loadOnTheAir()
     {
         $this->onTheAir = Cache::remember('on_the_air', 3600, function () {
-            return Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/tv/on_the_air')->json()['results'];
+            return collect(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/tv/on_the_air')->json()['results'])->shuffle();
         });
         $this->dispatch('livewireFetchedData');
     }

@@ -34,6 +34,10 @@
 
         @if (request()->routeIs('home'))
             <livewire:layout.home-header />
+        @elseif(request()->is('movies'))
+            <livewire:layout.movies-header />
+        @elseif(request()->is('series'))
+            <livewire:layout.series-header />
         @endif
 
         <!-- Page Content -->

@@ -13,7 +13,7 @@
     };
 @endphp
 
-<div class="relative"  x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+<div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
     <div>
         {{ $trigger }}
     </div>
