@@ -72,6 +72,7 @@ new class extends Component {
                 ->get("https://api.themoviedb.org/3/tv/{$this->series['id']}/season/{$seasonNumber}")
                 ->json()['episodes'] ?? [];
         });
+        // dd($this->episodes);
         $this->dispatch('livewireFetchedData');
     }
 
@@ -126,10 +127,10 @@ new class extends Component {
                 <p>{{ $series['overview'] }}</p>
             @endif
 
-            <!-- Genre -->
+            <!-- Genres -->
             <p class="text-sm text-gray-400">
                 @foreach ($series['genres'] as $genre)
-                    {{ $seriesGenres[$genre['id']] ?? '' }}@if (!$loop->last),@endif
+                    <a class="hover:cursor-pointer hover:underline" href="{{ route('series.genres', $genre['id'])}}" wire:navigate>{{ $seriesGenres[$genre['id']] ?? '' }}</a>@if (!$loop->last),@endif
                 @endforeach
             </p>
 

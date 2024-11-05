@@ -32,14 +32,6 @@
             <livewire:layout.navigation class="bg-transparent" />
         </div>
 
-        @if (request()->routeIs('home'))
-            <livewire:layout.home-header />
-        @elseif(request()->is('movies'))
-            <livewire:layout.movies-header />
-        @elseif(request()->is('series'))
-            <livewire:layout.series-header />
-        @endif
-
         <!-- Page Content -->
         <main class="flex-grow">
             {{ $slot }}

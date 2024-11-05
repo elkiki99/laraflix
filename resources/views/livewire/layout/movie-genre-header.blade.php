@@ -1,62 +1,42 @@
 <?php
 
 use Livewire\Volt\Component;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Http;
 
 new class extends Component {
-    public $trendingMovies = [];
+    public $movies = [];
 
-    public function mount()
+    public function mount($genreId)
     {
-        $this->loadTrendingMoviesAndSeries();
+        $this->loadMovies($genreId);
     }
-
-    public function loadTrendingMoviesAndSeries()
+    
+    public function loadMovies($genreId)
     {
-        $this->trendingMovies = Cache::remember('home_header', 360, function () {
-            $movies = collect(Http::withToken(config('services.tmdb.token'))
-                ->get('https://api.themoviedb.org/3/trending/movie/day')
-                ->json()['results'])
-                ->map(function ($movie) {
+        $this->movies = Cache::remember("header_by_genre_{$genreId}", 3600, function () use ($genreId) {
+            return collect(Http::withToken(config('services.tmdb.token'))
+                ->get('https://api.themoviedb.org/3/discover/movie', [
+                    'with_genres' => $genreId,
+                ])
+                ->json()['results'])->map(function($movie) {
                     return [
                         'id' => $movie['id'],
                         'imgSrc' => 'https://image.tmdb.org/t/p/original/' . $movie['backdrop_path'],
                         'imgAlt' => $movie['title'],
                         'title' => $movie['title'],
                         'description' => $movie['overview'],
-                        'type' => 'movie',
                     ];
                 })
                 ->shuffle()
-                ->take(4);
-
-            $tvShows = collect(Http::withToken(config('services.tmdb.token'))
-                ->get('https://api.themoviedb.org/3/trending/tv/day')
-                ->json()['results'])
-                ->map(function ($show) {
-                    return [
-                        'id' => $show['id'],
-                        'imgSrc' => 'https://image.tmdb.org/t/p/original/' . $show['backdrop_path'],
-                        'imgAlt' => $show['name'],
-                        'title' => $show['name'],
-                        'description' => $show['overview'],
-                        'type' => 'tv',
-                    ];
-                })
-                ->shuffle()
-                ->take(4);
-
-            return $movies->merge($tvShows)->shuffle()->toArray();
+                ->random(8)
+                ->toArray();
         });
-
         $this->dispatch('livewireFetchedData');
     }
 }; ?>
 
 <div class="min-h-screen">
     <div x-data="{
-            slides: {{ json_encode($trendingMovies) }},
+            slides: {{ json_encode($movies) }},
             currentSlideIndex: 0,
             next() {
                 this.currentSlideIndex = (this.currentSlideIndex + 1) % this.slides.length;
@@ -123,3 +103,4 @@ new class extends Component {
         </div>
     </div>
 </div>
+

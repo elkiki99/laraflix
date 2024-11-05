@@ -1,4 +1,6 @@
 <x-app-layout>
+    <livewire:layout.series-header />
+
     <div class="px-4 sm:px-6 lg:px-8">
         <!-- Genres -->
         <livewire:genres.series-genres />

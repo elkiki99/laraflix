@@ -9,7 +9,7 @@ new class extends Component {
     {
         $this->loadtrendingSeries();
     }
-
+    
     public function loadtrendingSeries()
     {
         $this->trendingSeries = Cache::remember('series_header', 360, function () {
