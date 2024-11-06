@@ -1,5 +1,5 @@
 <x-app-layout>
     <div class="min-h-screen px-6 py-10">
-        Search
+        <livewire:components.search />
     </div>
 </x-app-layout>

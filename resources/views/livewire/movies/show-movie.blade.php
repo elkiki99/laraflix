@@ -116,7 +116,6 @@ new class extends Component {
                     @endforeach
                 </p>
             @endif
-
         </div>
 
         @if ($trailerUrl)
