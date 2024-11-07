@@ -16,7 +16,6 @@ new class extends Component {
 
     public function watchlistUpdated($inWatchlist)
     {
-        // $this->inWatchlist = $inWatchlist;
         $this->loadWatchlist();
     }
 
@@ -45,16 +44,18 @@ new class extends Component {
     }
 }; ?>
 
-<div class="grid grid-cols-2 gap-4 mt-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-    @forelse($this->watchlist as $index => $item)
-        <div wire:key="item-{{ $item['id'] }}">
-            @if (isset($item['title']))
-                <x-movie-card :movie="$item" :index="$index" {{-- :key="$item['id']"  --}} />
-            @elseif (isset($item['name']))
-                <x-series-card :series="$item" :index="$index" {{-- :key="$item['id']"  --}} />
-            @endif
-        </div>
-    @empty
-        <p class="absolute font-bold text-gray-500 text-7xl center">No movies in your watchlist yet.</p>
-    @endforelse
+<div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 gap-4 mt-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        @forelse($this->watchlist as $index => $item)
+            <div wire:key="item-{{ $item['id'] }}">
+                @if (isset($item['title']))
+                    <x-movie-card :movie="$item" :index="$index" />
+                @elseif (isset($item['name']))
+                    <x-series-card :series="$item" :index="$index" />
+                @endif
+            </div>
+        @empty
+            <p class="absolute font-bold text-gray-500 text-7xl center">No movies in your watchlist yet.</p>
+        @endforelse
+    </div>
 </div>

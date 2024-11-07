@@ -89,7 +89,7 @@ new class extends Component {
                 <x-series-card :series="$item" :index="$index" />
             @endif
         @empty
-            <p class="absolute font-bold text-gray-500 text-7xl center text-">Oops! No results found.</p>
+            <p class="absolute font-bold text-gray-500 text-7xl">Oops! No results found.</p>
         @endforelse
     </div>
 </div>
