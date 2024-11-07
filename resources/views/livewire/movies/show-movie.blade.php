@@ -96,6 +96,9 @@ new class extends Component {
 
     <div class="relative h-full pb-10 mx-auto bg-black max-w-7xl">
         <div class="max-w-4xl px-4 pb-8 space-y-1 text-gray-300">
+            <!-- Add to watchlist -->
+            <livewire:components.toggle-watchlist-on-header :itemId="$movie['id']" />
+            
             <!-- Overview -->
             @if ($movie['overview'])
                 <p>{{ $movie['overview'] }}</p>

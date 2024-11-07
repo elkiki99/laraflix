@@ -43,7 +43,7 @@ new #[Layout('layouts.guest')] class extends Component {
         </div>
 
         <div class="space-y-4">
-            <x-primary-button class="justify-center w-full">
+            <x-primary-button class="justify-center w-full last:px-4">
                 {{ __('Log in') }}
             </x-primary-button>
 

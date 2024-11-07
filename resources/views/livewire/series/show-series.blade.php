@@ -121,6 +121,9 @@ new class extends Component {
 
     <div class="relative h-full mx-auto bg-black max-w-7xl">
         <div class="max-w-4xl px-4 space-y-1 text-gray-300">
+            <!-- Add to watchlist -->
+            <livewire:components.toggle-watchlist-on-header :itemId="$series['id']" />
+            
             <!-- Overview -->
             @if ($series['overview'])
                 <p>{{ $series['overview'] }}</p>
@@ -129,7 +132,11 @@ new class extends Component {
             <!-- Genres -->
             <p class="text-sm text-gray-400">
                 @foreach ($series['genres'] as $genre)
-                    <a class="hover:cursor-pointer hover:underline" href="{{ route('series.genres', $genre['id'])}}" wire:navigate>{{ $seriesGenres[$genre['id']] ?? '' }}</a>@if (!$loop->last),@endif
+                    <a class="hover:cursor-pointer hover:underline" href="{{ route('series.genres', $genre['id']) }}"
+                        wire:navigate>{{ $seriesGenres[$genre['id']] ?? '' }}</a>
+                    @if (!$loop->last)
+                        ,
+                    @endif
                 @endforeach
             </p>
 
@@ -137,7 +144,9 @@ new class extends Component {
             @if ($this->cast)
                 <p class="text-xs text-gray-500">
                     @foreach (array_slice($this->cast['cast'], 0, 5) as $actor)
-                        {{ $actor['name'] }}@if (!$loop->last),@endif
+                        {{ $actor['name'] }}@if (!$loop->last)
+                            ,
+                        @endif
                     @endforeach
                 </p>
             @endif
@@ -173,24 +182,24 @@ new class extends Component {
                     </x-slot>
                 </x-dropdown>
             </div>
-                <!-- Episode list -->
-                <div class="z-30 mt-6 overflow-hidden episode-swiper" id="episode-swiper">
-                    @if (count($episodes) > 0)
-                        <div class="swiper-wrapper">
-                            @foreach ($episodes as $episode)
-                                <div class="swiper-slide">
-                                    <x-episode-card :episode="$episode" :series="$series" :selectedSeason="$selectedSeason" />
-                                </div>
-                            @endforeach
-                        </div>
+            <!-- Episode list -->
+            <div class="z-30 mt-6 overflow-hidden episode-swiper" id="episode-swiper">
+                @if (count($episodes) > 0)
+                    <div class="swiper-wrapper">
+                        @foreach ($episodes as $episode)
+                            <div class="swiper-slide">
+                                <x-episode-card :episode="$episode" :series="$series" :selectedSeason="$selectedSeason" />
+                            </div>
+                        @endforeach
+                    </div>
 
-                        <div class="relative z-30 swiper-button-prev"></div>
-                        <div class="relative z-10 swiper-button-next"></div>
-                    @else
-                        <p class="mt-4 text-gray-400">No episodes available.</p>
-                    @endif
-                </div>
+                    <div class="relative z-30 swiper-button-prev"></div>
+                    <div class="relative z-10 swiper-button-next"></div>
+                @else
+                    <p class="mt-4 text-gray-400">No episodes available.</p>
+                @endif
             </div>
+        </div>
 
         <!-- Trailer -->
         @if ($trailerUrl)

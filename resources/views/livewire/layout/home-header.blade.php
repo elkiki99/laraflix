@@ -15,9 +15,7 @@ new class extends Component {
     public function loadTrendingMoviesAndSeries()
     {
         $this->trendingMovies = Cache::remember('home_header', 360, function () {
-            $movies = collect(Http::withToken(config('services.tmdb.token'))
-                ->get('https://api.themoviedb.org/3/trending/movie/day')
-                ->json()['results'])
+            $movies = collect(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/trending/movie/day')->json()['results'])
                 ->map(function ($movie) {
                     return [
                         'id' => $movie['id'],
@@ -31,16 +29,14 @@ new class extends Component {
                 ->shuffle()
                 ->take(4);
 
-            $tvShows = collect(Http::withToken(config('services.tmdb.token'))
-                ->get('https://api.themoviedb.org/3/trending/tv/day')
-                ->json()['results'])
+            $tvShows = collect(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/trending/tv/day')->json()['results'])
                 ->map(function ($show) {
                     return [
                         'id' => $show['id'],
                         'imgSrc' => 'https://image.tmdb.org/t/p/original/' . $show['backdrop_path'],
                         'imgAlt' => $show['name'],
                         'title' => $show['name'],
-                        'description' => $show['overview'],
+                        'description' => Str::limit($show['overview'], 400, '...') ?? $show['overview'],
                         'type' => 'tv',
                     ];
                 })
@@ -56,18 +52,15 @@ new class extends Component {
 
 <div class="min-h-screen">
     <div x-data="{
-            slides: {{ json_encode($trendingMovies) }},
-            currentSlideIndex: 0,
-            next() {
-                this.currentSlideIndex = (this.currentSlideIndex + 1) % this.slides.length;
-            },
-            previous() {
-                this.currentSlideIndex = (this.currentSlideIndex - 1 + this.slides.length) % this.slides.length;
-            }
-        }" 
-        x-init="setInterval(() => previous(), 8000)" 
-        class="absolute inset-0"
-    >
+        slides: {{ json_encode($trendingMovies) }},
+        currentSlideIndex: 0,
+        next() {
+            this.currentSlideIndex = (this.currentSlideIndex + 1) % this.slides.length;
+        },
+        previous() {
+            this.currentSlideIndex = (this.currentSlideIndex - 1 + this.slides.length) % this.slides.length;
+        }
+    }" x-init="setInterval(() => previous(), 8000)" class="absolute inset-0">
         <div class="absolute inset-0 z-20 bg-gradient-to-b from-black via-transparent to-gray-950"></div>
 
         <!-- Slides -->
@@ -96,7 +89,8 @@ new class extends Component {
                                                         d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
                                                         clip-rule="evenodd" />
                                                 </svg>
-                                                <p class="font-bold text-black">Watch now</p>
+                                                <p class="font-bold text-black">Go to <span
+                                                        x-text="slide.type === 'movie' ? 'movie' : 'series'"></span></p>
                                             </div>
                                         </x-primary-button>
                                     </a>
