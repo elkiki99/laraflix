@@ -130,6 +130,6 @@ new class extends Component {
 
         <div class="px-6 py-10">
             <livewire:movies.recommendations :id="$movie['id']" />
-        </div>*
+        </div>
     </div>
 </div>

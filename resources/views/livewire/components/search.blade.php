@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Cache;
 new class extends Component {
     public $query = '';
     public $allCatalog = [];
-    public $page = 1;
 
     public function mount()
     {
@@ -18,7 +17,7 @@ new class extends Component {
     {
         $movies =
             Http::withToken(config('services.tmdb.token'))
-                ->get("https://api.themoviedb.org/3/search/movie?query={$this->query}&page={$this->page}&limit=10")
+                ->get("https://api.themoviedb.org/3/discover/movie?query={$this->query}")
                 ->json()['results'] ?? [];
 
         return $movies;
@@ -28,7 +27,7 @@ new class extends Component {
     {
         $series =
             Http::withToken(config('services.tmdb.token'))
-                ->get('https://api.themoviedb.org/3/discover/tv?api_key=' . config('services.tmdb.token') . "&page={$this->page}&limit=10")
+                ->get('https://api.themoviedb.org/3/discover/tv?api_key=' . config('services.tmdb.token'))
                 ->json()['results'] ?? [];
 
         return $series;
@@ -40,7 +39,7 @@ new class extends Component {
             $movies = $this->fetchMovies();
             $tvShows = $this->fetchTVShows();
 
-            return collect($movies)->merge($tvShows)->shuffle()->values();
+            return collect($movies)->merge($tvShows)->shuffle()->values()->take(60);
         });
     }
 
@@ -54,7 +53,7 @@ new class extends Component {
         if (empty($this->query)) {
             $this->loadAllCatalog();
         } else {
-            $this->allCatalog = Cache::remember("search_{$this->query}", 300, function () {
+            $this->allCatalog = Cache::remember("search_{$this->query}", 3600, function () {
                 $movies =
                     Http::withToken(config('services.tmdb.token'))
                         ->get("https://api.themoviedb.org/3/search/movie?query={$this->query}")
@@ -83,12 +82,14 @@ new class extends Component {
     </div>
 
     <div class="grid grid-cols-2 gap-4 mt-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-        @foreach ($allCatalog as $index => $item)
+        @forelse ($allCatalog as $index => $item)
             @if (isset($item['title']))
                 <x-movie-card :movie="$item" :index="$index" />
             @elseif (isset($item['name']))
                 <x-series-card :series="$item" :index="$index" />
             @endif
-        @endforeach
+        @empty
+            <p class="absolute font-bold text-gray-500 text-7xl center text-">Oops! No results found.</p>
+        @endforelse
     </div>
 </div>

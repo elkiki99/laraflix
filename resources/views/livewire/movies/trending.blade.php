@@ -13,7 +13,7 @@ new class extends Component {
     public function loadTrendingMovies()
     {
         $this->trendingMovies = Cache::remember('trending_movies', 3600, function () {
-            return collect(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/trending/movie/day')->json()['results'])->shuffle();;
+            return collect(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/trending/movie/day')->json()['results'])->shuffle();
         });
         $this->dispatch('livewireFetchedData');
     }

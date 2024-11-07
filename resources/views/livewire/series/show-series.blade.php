@@ -72,7 +72,6 @@ new class extends Component {
                 ->get("https://api.themoviedb.org/3/tv/{$this->series['id']}/season/{$seasonNumber}")
                 ->json()['episodes'] ?? [];
         });
-        // dd($this->episodes);
         $this->dispatch('livewireFetchedData');
     }
 
