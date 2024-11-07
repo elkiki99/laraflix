@@ -2,14 +2,13 @@
 
 use Livewire\Volt\Component;
 
-new class extends Component 
-{
+new class extends Component {
     public $topRated = [];
 
-    public function mount()
-    {
-        $this->loadTopRated();
-    }
+    // public function mount()
+    // {
+    //     $this->loadTopRated();
+    // }
 
     public function loadTopRated()
     {
@@ -20,13 +19,15 @@ new class extends Component
     }
 }; ?>
 
-<div class="swiper">
+<div class="swiper" x-intersect.once="$wire.loadTopRated()">
     <h2 class="my-4 text-2xl font-bold text-white">Top rated</h2>
 
     <div class="swiper-wrapper">
         @foreach ($topRated as $index => $series)
             <div class="swiper-slide">
-                <x-series-card :series="$series" :index="$index" />
+                <div wire:key="item-{{ $series['id'] }}">
+                    <x-series-card :series="$series" :index="$index" />
+                </div>
             </div>
         @endforeach
     </div>

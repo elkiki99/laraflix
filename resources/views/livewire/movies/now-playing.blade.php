@@ -2,14 +2,8 @@
 
 use Livewire\Volt\Component;
 
-new class extends Component 
-{
+new class extends Component {
     public $nowPlaying = [];
-
-    public function mount()
-    {
-        $this->loadNowPlaying();
-    }
 
     public function loadNowPlaying()
     {
@@ -20,13 +14,15 @@ new class extends Component
     }
 }; ?>
 
-<div class="swiper">
+<div class="swiper" x-intersect.once="$wire.loadNowPlaying()">
     <h2 class="my-4 text-2xl font-bold text-white">Now playing</h2>
 
     <div class="swiper-wrapper">
         @foreach ($nowPlaying as $index => $movie)
             <div class="swiper-slide">
-                <x-movie-card :movie="$movie" :index="$index" />
+                <div wire:key="item-{{ $movie['id'] }}">
+                    <x-movie-card :movie="$movie" :index="$index" />
+                </div>
             </div>
         @endforeach
     </div>

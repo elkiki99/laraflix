@@ -6,10 +6,10 @@ new class extends Component
 {
     public $popularSeries = [];
 
-    public function mount()
-    {
-        $this->loadPopularSeries();
-    }
+    // public function mount()
+    // {
+    //     $this->loadPopularSeries();
+    // }
 
     public function loadPopularSeries()
     {
@@ -20,13 +20,15 @@ new class extends Component
     }
 }; ?>
 
-<div class="swiper">
+<div class="swiper" x-intersect.once="$wire.loadPopularSeries()">
     <h2 class="my-4 text-2xl font-bold text-white">Popular series</h2>
 
     <div class="swiper-wrapper">
         @foreach ($popularSeries as $index => $series)
             <div class="swiper-slide">
-                <x-series-card :series="$series" :index="$index" />
+                <div wire:key="item-{{ $series['id'] }}">
+                    <x-series-card :series="$series" :index="$index" />
+                </div>
             </div>
         @endforeach
     </div>

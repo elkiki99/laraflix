@@ -6,10 +6,10 @@ new class extends Component
 {
     public $onTheAir = [];
 
-    public function mount()
-    {
-        $this->loadOnTheAir();
-    }
+    // public function mount()
+    // {
+    //     $this->loadOnTheAir();
+    // }
 
     public function loadOnTheAir()
     {
@@ -20,13 +20,15 @@ new class extends Component
     }
 }; ?>
 
-<div class="swiper">
+<div class="swiper" x-intersect.once="$wire.loadOnTheAir()">
     <h2 class="my-4 text-2xl font-bold text-white">On the air</h2>
 
     <div class="swiper-wrapper">
         @foreach ($onTheAir as $index => $series)
             <div class="swiper-slide">
-                <x-series-card :series="$series" :index="$index" />
+                <div wire:key="item-{{ $series['id'] }}">
+                    <x-series-card :series="$series" :index="$index" />
+                </div>
             </div>
         @endforeach
     </div>
