@@ -5,11 +5,6 @@ use Livewire\Volt\Component;
 new class extends Component {
     public $trendingMovies = [];
 
-    // public function mount()
-    // {
-    //     $this->loadTrendingMovies();
-    // }
-
     public function loadTrendingMovies()
     {
         $this->trendingMovies = Cache::remember('trending_movies', 3600, function () {

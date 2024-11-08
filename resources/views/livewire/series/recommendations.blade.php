@@ -11,10 +11,9 @@ new class extends Component {
     public function mount($id)
     {
         $this->id = $id;
-        $this->loadRecommendations();
     }
 
-    protected function loadRecommendations()
+    public function loadRecommendations()
     {
         $this->recommendations = Cache::remember("series{$this->id}_recommendations", 3600, function () {
             $response = Http::withToken(config('services.tmdb.token'))
@@ -26,7 +25,7 @@ new class extends Component {
     }
 }; ?>
 
-<div class="">
+<div class="" x-intersect.once="$wire.loadRecommendations">
     @if (isset($recommendations['results']) || count($recommendations) > 0)
         <div class="swiper">
             <h2 class="my-4 text-2xl font-bold text-white">Recommended</h2>
@@ -35,13 +34,17 @@ new class extends Component {
                 @if (isset($recommendations['results']))
                     @foreach ($recommendations['results'] as $index => $series)
                         <div class="swiper-slide">
-                            <x-series-card :series="$series" :index="$index" />
+                            <div wire:key="item-{{ $series['id'] }}">
+                                <x-series-card :series="$series" :index="$index" />
+                            </div>
                         </div>
                     @endforeach
                 @else
                     @foreach ($recommendations as $index => $series)
                         <div class="swiper-slide">
-                            <x-series-card :series="$series" :index="$index" />
+                            <div wire:key="item-{{ $series['id'] }}">
+                                <x-series-card :series="$series" :index="$index" />
+                            </div>
                         </div>
                     @endforeach
                 @endif

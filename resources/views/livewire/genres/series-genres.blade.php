@@ -12,7 +12,7 @@ new class extends Component {
 
     public function loadSeriesGenres()
     {
-        $this->seriesGenres = Cache::remember('series_genres', 3600, function () {
+        $this->seriesGenres = Cache::remember('series_header_by_genres', 3600, function () {
             return Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/genre/tv/list')->json()['genres'];
         });
     }

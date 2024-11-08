@@ -5,11 +5,6 @@ use Livewire\Volt\Component;
 new class extends Component {
     public $topRated = [];
 
-    // public function mount()
-    // {
-    //     $this->loadTopRated();
-    // }
-
     public function loadTopRated()
     {
         $this->topRated = Cache::remember('top_rated', 3600, function () {

@@ -9,15 +9,26 @@ new class extends Component {
     {
         $this->loadSeries($genreId);
     }
-    
+
     public function loadSeries($genreId)
     {
         $this->series = Cache::remember("header_by_genre_{$genreId}", 3600, function () use ($genreId) {
-            return collect(Http::withToken(config('services.tmdb.token'))
-                ->get('https://api.themoviedb.org/3/discover/tv', [
-                    'with_genres' => $genreId,
-                ])
-                ->json()['results'])->map(function($series) {
+            $results = collect(
+                Http::withToken(config('services.tmdb.token'))
+                    ->get('https://api.themoviedb.org/3/discover/tv', [
+                        'with_genres' => $genreId,
+                    ])
+                    ->json()['results'] ?? [],
+            );
+
+            if ($results->isEmpty()) {
+                return [];
+            }
+
+            return $results
+                ->shuffle()
+                ->take(8)
+                ->map(function ($series) {
                     return [
                         'id' => $series['id'],
                         'imgSrc' => 'https://image.tmdb.org/t/p/original/' . $series['backdrop_path'],
@@ -26,28 +37,24 @@ new class extends Component {
                         'description' => $series['overview'],
                     ];
                 })
-                ->shuffle()
-                ->random(8)
                 ->toArray();
         });
+
         $this->dispatch('livewireFetchedData');
     }
 }; ?>
 
 <div class="min-h-screen">
     <div x-data="{
-            slides: {{ json_encode($series) }},
-            currentSlideIndex: 0,
-            next() {
-                this.currentSlideIndex = (this.currentSlideIndex + 1) % this.slides.length;
-            },
-            previous() {
-                this.currentSlideIndex = (this.currentSlideIndex - 1 + this.slides.length) % this.slides.length;
-            }
-        }" 
-        x-init="setInterval(() => previous(), 8000)" 
-        class="absolute inset-0"
-    >
+        slides: {{ json_encode($series) }},
+        currentSlideIndex: 0,
+        next() {
+            this.currentSlideIndex = (this.currentSlideIndex + 1) % this.slides.length;
+        },
+        previous() {
+            this.currentSlideIndex = (this.currentSlideIndex - 1 + this.slides.length) % this.slides.length;
+        }
+    }" x-init="setInterval(() => previous(), 8000)" class="absolute inset-0">
         <div class="absolute inset-0 z-20 bg-gradient-to-b from-black via-transparent to-gray-950"></div>
 
         <!-- Slides -->
@@ -103,5 +110,3 @@ new class extends Component {
         </div>
     </div>
 </div>
-
-

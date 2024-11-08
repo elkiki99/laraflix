@@ -1,6 +1,6 @@
-@props(['movie', 'index'])
+@props(['movie', 'index', 'loaded' => false])
 
-<div x-data="{ loaded: true }" wire:remove wire:key="item-{{ $movie['id'] }}"
+<div x-data="{ loaded: @js($loaded) }" wire:remove wire:key="item-{{ $movie['id'] }}"
     wire:target='toggle-watchlist,{{ $movie['id'] }}'
     class="relative overflow-hidden transition duration-300 transform bg-gray-800 rounded-sm shadow-md hover:cursor-pointer hover:shadow-xl hover:scale-105">
     <div class="absolute inset-0 flex items-center justify-center" x-show="!loaded">

@@ -14,20 +14,22 @@ new class extends Component {
             $response = Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/genre/tv/list')->json();
             $genre = collect($response['genres'])->firstWhere('id', $genreId);
 
-            if($genre) {
-                return $genre['name'] ?? '';
-            } else {
+            if (!$genre) {
                 abort(404);
+            } else {
+                return $genre['name'] ?? '';
             }
         });
         $this->dispatch('livewireFetchedData');
 
         $this->series = Cache::remember("series_by_genre_{$genreId}", 3600, function () use ($genreId) {
-            return collect(Http::withToken(config('services.tmdb.token'))
-                ->get('https://api.themoviedb.org/3/discover/tv', [
-                    'with_genres' => $genreId,
-                ])
-                ->json()['results'])->shuffle() ?? [];
+            return collect(
+                Http::withToken(config('services.tmdb.token'))
+                    ->get('https://api.themoviedb.org/3/discover/tv', [
+                        'with_genres' => $genreId,
+                    ])
+                    ->json()['results'],
+            )->shuffle() ?? [];
         });
     }
 }; ?>
@@ -37,7 +39,9 @@ new class extends Component {
     <div class="swiper-wrapper">
         @foreach ($series as $index => $serie)
             <div class="swiper-slide">
-                <x-series-card :series="$serie" :index="$index" />
+                <div wire:key="item-{{ $serie['id'] }}">
+                    <x-series-card :series="$serie" :index="$index" :loaded="true" />
+                </div>
             </div>
         @endforeach
     </div>

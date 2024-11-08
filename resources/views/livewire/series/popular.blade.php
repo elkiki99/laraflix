@@ -6,11 +6,6 @@ new class extends Component
 {
     public $popularSeries = [];
 
-    // public function mount()
-    // {
-    //     $this->loadPopularSeries();
-    // }
-
     public function loadPopularSeries()
     {
         $this->popularSeries = Cache::remember('popular_series', 3600, function () {

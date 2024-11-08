@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
-new class extends Component {
+new class extends Component 
+{
     protected $listeners = ['watchlistUpdated'];
 
     public $watchlist = [];
@@ -49,9 +50,9 @@ new class extends Component {
         @forelse($this->watchlist as $index => $item)
             <div wire:key="item-{{ $item['id'] }}">
                 @if (isset($item['title']))
-                    <x-movie-card :movie="$item" :index="$index" />
+                    <x-movie-card :movie="$item" :index="$index" :loaded="true" />
                 @elseif (isset($item['name']))
-                    <x-series-card :series="$item" :index="$index" />
+                    <x-series-card :series="$item" :index="$index" :loaded="true" />
                 @endif
             </div>
         @empty

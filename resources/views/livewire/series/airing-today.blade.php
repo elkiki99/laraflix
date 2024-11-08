@@ -5,11 +5,6 @@ use Livewire\Volt\Component;
 new class extends Component {
     public $airingToday = [];
 
-    // public function mount()
-    // {
-    //     $this->loadAiringToday();
-    // }
-
     public function loadAiringToday()
     {
         $this->airingToday = Cache::remember('airing_today', 3600, function () {

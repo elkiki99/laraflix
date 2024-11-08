@@ -9,15 +9,26 @@ new class extends Component {
     {
         $this->loadMovies($genreId);
     }
-    
+
     public function loadMovies($genreId)
     {
-        $this->movies = Cache::remember("header_by_genre_{$genreId}", 3600, function () use ($genreId) {
-            return collect(Http::withToken(config('services.tmdb.token'))
-                ->get('https://api.themoviedb.org/3/discover/movie', [
-                    'with_genres' => $genreId,
-                ])
-                ->json()['results'])->map(function($movie) {
+        $this->movies = Cache::remember("movie_header_by_genre_{$genreId}", 3600, function () use ($genreId) {
+            $results = collect(
+                Http::withToken(config('services.tmdb.token'))
+                    ->get('https://api.themoviedb.org/3/discover/movie', [
+                        'with_genres' => $genreId,
+                    ])
+                    ->json()['results'] ?? [],
+            );
+
+            if ($results->isEmpty()) {
+                return [];
+            }
+
+            return $results
+                ->shuffle()
+                ->take(8)
+                ->map(function ($movie) {
                     return [
                         'id' => $movie['id'],
                         'imgSrc' => 'https://image.tmdb.org/t/p/original/' . $movie['backdrop_path'],
@@ -26,10 +37,9 @@ new class extends Component {
                         'description' => $movie['overview'],
                     ];
                 })
-                ->shuffle()
-                ->random(8)
                 ->toArray();
         });
+
         $this->dispatch('livewireFetchedData');
     }
 }; ?>
