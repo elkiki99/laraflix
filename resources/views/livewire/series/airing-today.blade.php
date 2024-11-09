@@ -21,7 +21,7 @@ new class extends Component {
         @foreach ($airingToday as $index => $series)
             <div class="swiper-slide">
                 <div wire:key="item-{{ $series['id'] }}">
-                    <x-series-card :series="$series" :index="$index" />
+                    <x-series-card :series="$series" :index="$index" :loaded="true" />
                 </div>
             </div>
         @endforeach

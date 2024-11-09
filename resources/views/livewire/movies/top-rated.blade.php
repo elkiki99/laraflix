@@ -21,7 +21,7 @@ new class extends Component {
         @foreach ($topRated as $index => $movie)
             <div class="swiper-slide">
                 <div wire:key="item-{{ $movie['id'] }}">
-                    <x-movie-card :movie="$movie" :index="$index" />
+                    <x-movie-card :movie="$movie" :index="$index" :loaded="true" />
                 </div>
             </div>
         @endforeach
