@@ -10,21 +10,21 @@ new class extends Component {
     public $class;
 
     public function logout(Logout $logout): void
-    {   
+    {
         $logout();
 
         $this->redirect('/', navigate: true);
     }
 }; ?>
 
-<nav x-data="{ open: false }" class="{{ $class }} ">
+<nav x-cloak x-data="{ open: false }" class="{{ $class }} ">
     <!-- Primary Navigation Menu -->
     <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex items-center shrink-0">
-                    <a href="{{ route('home') }}" wire:navigate>
+                    <a wire:navigate href="{{ route('home') }}">
                         <x-application-logo class="block w-auto text-gray-200 fill-current h-9" />
                     </a>
                 </div>
@@ -45,7 +45,8 @@ new class extends Component {
 
             <!-- Settings Dropdown -->
             <div class="flex items-center space-x-2 md:space-x-6 ms-6">
-                <a class="{{ request()->routeIs('search') ? 'inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-100 focus:outline-none transition duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-400 hover:text-gray-300 hover:border-gray-700 focus:outline-none focus:text-gray-300 transition duration-150 ease-in-out' }}"
+                <a wire:navigate
+                    class="{{ request()->routeIs('search') ? 'inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-100 focus:outline-none transition duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-400 hover:text-gray-300 hover:border-gray-700 focus:outline-none focus:text-gray-300 transition duration-150 ease-in-out' }}"
                     href="{{ route('search') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
                         stroke="currentColor" class="size-6">
@@ -54,11 +55,9 @@ new class extends Component {
                     </svg>
                 </a>
 
-                <a class="{{ request()->routeIs('watchlist') ? 'inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-100 focus:outline-none transition duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-400 hover:text-gray-300 hover:border-gray-700 focus:outline-none focus:text-gray-300 transition duration-150 ease-in-out' }}"
-                    href="{{ route(
-                        'watchlist',
-                        // , auth()->user()->id
-                    ) }}">
+                <a wire:navigate
+                    class="{{ request()->routeIs('watchlist') ? 'inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-100 focus:outline-none transition duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-400 hover:text-gray-300 hover:border-gray-700 focus:outline-none focus:text-gray-300 transition duration-150 ease-in-out' }}"
+                    href="{{ route('watchlist') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
                         stroke="currentColor" class=" size-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -70,9 +69,7 @@ new class extends Component {
                     <x-slot name="trigger">
                         <button
                             class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-400 transition duration-150 ease-in-out bg-transparent border border-transparent rounded-md hover:text-gray-300 focus:outline-none">
-                            {{-- <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name"
-                                x-on:profile-updated.window="name = $event.detail.name"></div> --}}
-                                <p>{{ auth()->user()->name }}</p>
+                            <p>{{ auth()->user()->name }}</p>
 
                             <div class="ms-1">
                                 <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg"
@@ -95,11 +92,11 @@ new class extends Component {
                                 {{ __('Series') }}
                             </x-dropdown-link>
                         </div>
-                        
+
                         <x-dropdown-link :href="route('profile')" wire:navigate>
                             {{ __('Profile') }}
                         </x-dropdown-link>
-                        
+
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
                             <x-dropdown-link>
@@ -123,9 +120,7 @@ new class extends Component {
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-600">
             <div class="px-4">
-                {{-- <div class="text-base font-medium text-gray-200" x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name"
-                    x-on:profile-updated.window="name = $event.detail.name"></div> --}}
-                    <p>{{ auth()->user()->name }}</p>
+                <p>{{ auth()->user()->name }}</p>
                 <div class="text-sm font-medium text-gray-500">{{ auth()->user()->email }}</div>
             </div>
 

@@ -43,22 +43,32 @@ new class extends Component {
     }
 }; ?>
 
-<div class="mb-4">
-    <button wire:click="toggleWatchlist">
-        <div class="flex flex-col items-center justify-center gap-1">
-            @if ($inWatchlist)
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                </svg>
-            @else
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class=" size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-            @endif
-            
-            <p class="text-xs">Watchlist</p>
+<div x-data="{ inWatchlist: @js($inWatchlist) }" class="mb-4">
+    <button @click="inWatchlist = !inWatchlist; $wire.toggleWatchlist()">
+        <div class="flex flex-col items-center justify-center ">
+            <!-- Plus Icon -->
+            <svg x-show="!inWatchlist" x-transition:enter="transition transform duration-500 ease-in-out"
+                x-transition:enter-start="opacity-0 rotate-180 scale-50"
+                x-transition:enter-end="opacity-100 rotate-0 scale-100"
+                x-transition:leave="transition transform duration-500 ease-in-out"
+                x-transition:leave-start="opacity-100 rotate-0 scale-100"
+                x-transition:leave-end="opacity-0 rotate-180 scale-50" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="absolute w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+
+            <!-- Check Icon -->
+            <svg x-show="inWatchlist" x-transition:enter="transition transform duration-500 ease-in-out"
+                x-transition:enter-start="opacity-0 -rotate-180 scale-50"
+                x-transition:enter-end="opacity-100 rotate-0 scale-100"
+                x-transition:leave="transition transform duration-500 ease-in-out"
+                x-transition:leave-start="opacity-100 rotate-0 scale-100"
+                x-transition:leave-end="opacity-0 -rotate-180 scale-50" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="absolute w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+            </svg>
         </div>
+
+        <p class="mt-4 text-xs">Watchlist</p>
     </button>
 </div>

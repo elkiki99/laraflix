@@ -84,9 +84,9 @@ new class extends Component {
     <div class="grid grid-cols-2 gap-4 mt-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         @forelse ($allCatalog as $index => $item)
             @if (isset($item['title']))
-                <x-movie-card :movie="$item" :index="$index" />
+                <x-movie-card :movie="$item" :index="$index" :loaded="true" />
             @elseif (isset($item['name']))
-                <x-series-card :series="$item" :index="$index" />
+                <x-series-card :series="$item" :index="$index" :loaded="true" />
             @endif
         @empty
             <p class="absolute font-bold text-gray-500 text-7xl">Oops! No results found.</p>

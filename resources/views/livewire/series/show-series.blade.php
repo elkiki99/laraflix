@@ -17,8 +17,7 @@ new class extends Component {
         $this->loadSeriesData($id);
         $this->loadSeriesTrailer($id);
         $this->loadSeriesCast($id);
-        $this->loadSeriesDetails($id);
-        $this->loadSeasonEpisodes($this->selectedSeason);
+        $this->loadSeasonEpisodes(1);
     }
 
     protected function loadSeriesCast($id)
@@ -49,15 +48,6 @@ new class extends Component {
     protected function loadSeriesData($id)
     {
         $this->series = Cache::remember("series_{$id}", 3600, function () use ($id) {
-            return Http::withToken(config('services.tmdb.token'))
-                ->get("https://api.themoviedb.org/3/tv/{$id}")
-                ->json();
-        });
-    }
-
-    protected function loadSeriesDetails($id)
-    {
-        $this->series = Cache::remember("series_{$id}_details", 3600, function () use ($id) {
             return Http::withToken(config('services.tmdb.token'))
                 ->get("https://api.themoviedb.org/3/tv/{$id}")
                 ->json();
@@ -144,8 +134,7 @@ new class extends Component {
             @if ($this->cast)
                 <p class="text-xs text-gray-500">
                     @foreach (array_slice($this->cast['cast'], 0, 5) as $actor)
-                        {{ $actor['name'] }}@if (!$loop->last)
-                            ,
+                        {{ $actor['name'] }}@if (!$loop->last),
                         @endif
                     @endforeach
                 </p>
@@ -182,6 +171,7 @@ new class extends Component {
                     </x-slot>
                 </x-dropdown>
             </div>
+            
             <!-- Episode list -->
             <div class="z-30 mt-6 overflow-hidden episode-swiper" id="episode-swiper">
                 @if (count($episodes) > 0)

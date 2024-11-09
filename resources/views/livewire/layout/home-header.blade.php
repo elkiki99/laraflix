@@ -80,7 +80,7 @@ new class extends Component {
                                 </div>
 
                                 <div class="">
-                                    <a :href="`{{ route('movies.show', '') }}/${slide.id}`">
+                                    <a wire:navigate :href="`{{ route('movies.show', '') }}/${slide.id}`">
                                         <x-primary-button class="absolute px-16 hover:cursor-pointer">
                                             <div class="flex items-center gap-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
