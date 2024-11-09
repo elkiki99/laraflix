@@ -124,8 +124,7 @@ new class extends Component {
                 @foreach ($series['genres'] as $genre)
                     <a class="hover:cursor-pointer hover:underline" href="{{ route('series.genres', $genre['id']) }}"
                         wire:navigate>{{ $seriesGenres[$genre['id']] ?? '' }}</a>
-                    @if (!$loop->last)
-                        ,
+                    @if (!$loop->last),
                     @endif
                 @endforeach
             </p>

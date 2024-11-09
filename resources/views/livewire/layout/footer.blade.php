@@ -9,7 +9,7 @@ new class extends Component {
 
 
 <footer class="p-10 mt-auto {{ $class }}">
-    <div class="flex flex-col items-center justify-center mx-auto space-y-2 text-center sm:space-y-0 sm:justify-between sm:text-start sm:flex-row max-w-7xl">
+    <div class="flex flex-col items-center justify-center px-4 mx-auto space-y-2 text-center sm:space-y-0 sm:justify-between sm:text-start sm:flex-row max-w-7xl sm:px-6 lg:px-8">
         <!-- Socials -->
         <div class="flex items-center space-x-4">
             <a href="https://facebook.com" target="_blank">

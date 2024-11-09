@@ -28,7 +28,8 @@ new class extends Component
                     return $this->fetchItemDetails($item->item_id);
                 });
             })
-            ->filter();
+            ->filter()
+            ->reverse();
     }
 
     private function fetchItemDetails($itemId)
