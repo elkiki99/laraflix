@@ -18,13 +18,13 @@
 
 <body
     class="relative flex items-center justify-center min-h-screen py-5 font-sans antialiased text-gray-900 bg-center bg-cover"
-    style="background-image: url('{{ asset('storage/bg-guest.jpg') }}');">
-    
+    style="background-image: url('{{ url('bg-guest.jpg') }}');">
+
     <div class="absolute inset-0 bg-black opacity-30"></div>
     <div class="absolute inset-0 backdrop-blur-sm"></div>
 
     <div class="relative z-10 flex flex-col items-center min-h-screen pt-6 bg-transparent sm:justify-center sm:pt-0">
-        
+
         <div class="relative z-20 pb-10">
             <a href="/" wire:navigate>
                 <x-application-logo class="w-20 h-20 text-gray-200 fill-current" />

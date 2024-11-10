@@ -62,6 +62,19 @@ return [
             ]) : [],
         ],
 
+        'tmdb' => [
+            'driver' => 'pgsql',
+            'host' => env('TMDB_DB_HOST', 'your-tmdb-db-host'),
+            'port' => env('TMDB_DB_PORT', '5432'),
+            'database' => env('TMDB_DB_DATABASE', 'your-tmdb-db'),
+            'username' => env('TMDB_DB_USERNAME', 'your-tmdb-username'),
+            'password' => env('TMDB_DB_PASSWORD', 'your-tmdb-password'),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'schema' => 'public',
+            'sslmode' => 'require',
+        ],
+
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),
@@ -147,7 +160,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [

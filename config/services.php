@@ -36,7 +36,8 @@ return [
     ],
 
     'tmdb' => [
-        'token' => env('TMDB_API_KEY'),
+        'url' => env('TMDB_ENDPOINT'),
+        'token' => env('TMDB_TOKEN'),
     ],
 
 ];

@@ -3,6 +3,7 @@
 use Livewire\Volt\Component;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 new class extends Component {
     public $trendingMovies = [];
@@ -15,35 +16,35 @@ new class extends Component {
     public function loadTrendingMoviesAndSeries()
     {
         $this->trendingMovies = Cache::remember('home_header', 360, function () {
-            $movies = collect(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/trending/movie/day')->json()['results'])
-                ->map(function ($movie) {
+            $results = collect(
+                array_merge(
+                    Http::withToken(config('services.tmdb.token'))
+                        ->get('https://api.themoviedb.org/3/trending/movie/day')
+                        ->json()['results'] ?? [],
+                    Http::withToken(config('services.tmdb.token'))
+                        ->get('https://api.themoviedb.org/3/trending/tv/day')
+                        ->json()['results'] ?? []
+                )
+            );
+
+            if ($results->isEmpty()) {
+                return [];
+            }
+
+            return $results
+                ->shuffle()
+                ->take(8)
+                ->map(function ($item) {
                     return [
-                        'id' => $movie['id'],
-                        'imgSrc' => 'https://image.tmdb.org/t/p/original/' . $movie['backdrop_path'],
-                        'imgAlt' => $movie['title'],
-                        'title' => $movie['title'],
-                        'description' => Str::limit($movie['overview'], 400, '...') ?? $movie['overview'],
-                        'type' => 'movie',
+                        'id' => $item['id'],
+                        'imgSrc' => 'https://image.tmdb.org/t/p/original/' . $item['backdrop_path'],
+                        'imgAlt' => $item['title'] ?? $item['name'],
+                        'title' => $item['title'] ?? $item['name'],
+                        'description' => Str::limit($item['overview'], 400, '...') ?? $item['overview'],
+                        'type' => isset($item['title']) ? 'movie' : 'tv',
                     ];
                 })
-                ->shuffle()
-                ->take(4);
-
-            $tvShows = collect(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/trending/tv/day')->json()['results'])
-                ->map(function ($show) {
-                    return [
-                        'id' => $show['id'],
-                        'imgSrc' => 'https://image.tmdb.org/t/p/original/' . $show['backdrop_path'],
-                        'imgAlt' => $show['name'],
-                        'title' => $show['name'],
-                        'description' => Str::limit($show['overview'], 400, '...') ?? $show['overview'],
-                        'type' => 'tv',
-                    ];
-                })
-                ->shuffle()
-                ->take(4);
-
-            return $movies->merge($tvShows)->shuffle()->toArray();
+                ->toArray();
         });
 
         $this->dispatch('livewireFetchedData');
