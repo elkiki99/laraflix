@@ -107,7 +107,7 @@ new class extends Component {
             <!-- Genres -->
             <p class="text-sm text-gray-400">
                 @foreach ($movie['genres'] as $genre)
-                    <a class="hover:cursor-pointer hover:underline" href="{{ route('movies.genres', $genre['id'])}}" wire:navigate>{{ $movieGenres[$genre['id']] ?? '' }}</a>@if (!$loop->last),@endif
+                    <a class="hover:cursor-pointer hover:underline" href="{{ route('movies.genres', $genre['id'])}}" wire:navigate>{{ $movieGenres[$genre['id']] ?? '' }}</a>@if(!$loop->last),@endif
                 @endforeach
             </p>
             
@@ -115,7 +115,7 @@ new class extends Component {
             @if ($this->cast)
                 <p class="text-xs text-gray-500">
                     @foreach (array_slice($cast['cast'], 0, 5) as $actor)
-                        {{ $actor['name'] }}@if (!$loop->last),@endif
+                        {{ $actor['name'] }}@if(!$loop->last),@endif
                     @endforeach
                 </p>
             @endif

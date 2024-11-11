@@ -34,7 +34,7 @@ new class extends Component {
                         'imgSrc' => 'https://image.tmdb.org/t/p/original/' . $movie['backdrop_path'],
                         'imgAlt' => $movie['title'],
                         'title' => $movie['title'],
-                        'description' => $movie['overview'],
+                        'description' => Str::limit($movie['overview'], 400, '...') ?? $movie['overview'],
                     ];
                 })
                 ->toArray();

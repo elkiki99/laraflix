@@ -123,9 +123,7 @@ new class extends Component {
             <p class="text-sm text-gray-400">
                 @foreach ($series['genres'] as $genre)
                     <a class="hover:cursor-pointer hover:underline" href="{{ route('series.genres', $genre['id']) }}"
-                        wire:navigate>{{ $seriesGenres[$genre['id']] ?? '' }}</a>
-                    @if (!$loop->last),
-                    @endif
+                        wire:navigate>{{ $seriesGenres[$genre['id']] ?? '' }}</a>@if(!$loop->last),@endif
                 @endforeach
             </p>
 
@@ -133,15 +131,14 @@ new class extends Component {
             @if ($this->cast)
                 <p class="text-xs text-gray-500">
                     @foreach (array_slice($this->cast['cast'], 0, 5) as $actor)
-                        {{ $actor['name'] }}@if (!$loop->last),
-                        @endif
+                        {{ $actor['name'] }}@if(!$loop->last),@endif
                     @endforeach
                 </p>
             @endif
         </div>
 
         <!-- Seasons -->
-        <div class="mt-6 mb-20">
+        <div class="px-4 mt-6 mb-20">
             <div class="inline-flex">
                 <x-dropdown align="left" width="48" class="bg-black bg-opacity-80">
                     <x-slot name="trigger">

@@ -34,7 +34,7 @@ new class extends Component {
                         'imgSrc' => 'https://image.tmdb.org/t/p/original/' . $series['backdrop_path'],
                         'imgAlt' => $series['name'],
                         'title' => $series['name'],
-                        'description' => $series['overview'],
+                        'description' => Str::limit($series['overview'], 400, '...') ?? $series['overview'],
                     ];
                 })
                 ->toArray();
