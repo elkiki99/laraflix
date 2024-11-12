@@ -16,16 +16,7 @@ new class extends Component {
     public function loadTrendingMoviesAndSeries()
     {
         $this->trendingMovies = Cache::remember('home_header', 360, function () {
-            $results = collect(
-                array_merge(
-                    Http::withToken(config('services.tmdb.token'))
-                        ->get('https://api.themoviedb.org/3/trending/movie/day')
-                        ->json()['results'] ?? [],
-                    Http::withToken(config('services.tmdb.token'))
-                        ->get('https://api.themoviedb.org/3/trending/tv/day')
-                        ->json()['results'] ?? []
-                )
-            );
+            $results = collect(array_merge(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/trending/movie/day')->json()['results'] ?? [], Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/trending/tv/day')->json()['results'] ?? []));
 
             if ($results->isEmpty()) {
                 return [];
@@ -81,7 +72,10 @@ new class extends Component {
                                 </div>
 
                                 <div class="">
-                                    <a wire:navigate :href="`{{ route('movies.show', '') }}/${slide.id}`">
+                                    <a
+                                        wire:navigate
+                                        :href="slide.type === 'movie' ? `{{ route('movies.show', '') }}/${slide.id}` :
+                                            `{{ route('series.show', '') }}/${slide.id}`">
                                         <x-primary-button class="absolute px-16 hover:cursor-pointer">
                                             <div class="flex items-center gap-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
