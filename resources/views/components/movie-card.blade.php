@@ -29,7 +29,7 @@
 
                 <x-slot name="content">
                     <x-dropdown-link>
-                        <livewire:components.toggle-watchlist :itemId="$movie['id']" :key="$movie['id']" />
+                        <livewire:components.toggle-watchlist :itemId="$movie['id']" :itemType="'movie'" :key="$movie['id']" />
                     </x-dropdown-link>
 
                     <x-dropdown-link href="{{ route('movies.show', $movie['id']) }}">

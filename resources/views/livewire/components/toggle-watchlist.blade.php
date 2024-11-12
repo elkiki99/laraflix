@@ -6,12 +6,14 @@ use App\Models\Watchlist;
 
 new class extends Component {
     public $itemId;
+    public $itemType;
     public $inWatchlist = [];
 
-    public function mount($itemId)
+    public function mount($itemId, $itemType)
     {
         $this->itemId = $itemId;
-        $this->inWatchlist = Auth::user()->watchlist->pluck('item_id')->contains($itemId);
+        $this->itemType = $itemType;
+        $this->inWatchlist = Auth::user()->watchlist->where('item_type', $itemType)->pluck('item_id')->contains($itemId);
     }
 
     public function toggleWatchlist()
@@ -31,6 +33,7 @@ new class extends Component {
         Watchlist::create([
             'user_id' => Auth::id(),
             'item_id' => $this->itemId,
+            'item_type' => $this->itemType,
         ]);
     }
 
@@ -38,6 +41,7 @@ new class extends Component {
     {
         Watchlist::where('user_id', Auth::id())
             ->where('item_id', $this->itemId)
+            ->where('item_type', $this->itemType)
             ->delete();
     }
 }; ?>

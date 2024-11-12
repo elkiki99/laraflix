@@ -4,8 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
-new class extends Component 
-{
+new class extends Component {
     protected $listeners = ['watchlistUpdated'];
 
     public $watchlist = [];
@@ -24,23 +23,21 @@ new class extends Component
     {
         $this->watchlist = collect(Auth::user()->watchlist)
             ->map(function ($item) {
-                return Cache::remember("watchlist_item_{$item->item_id}", 3600, function () use ($item) {
-                    return $this->fetchItemDetails($item->item_id);
+                $cacheKey = "watchlist_item_{$item->item_type}_{$item->item_id}";
+
+                return Cache::remember($cacheKey, 3600, function () use ($item) {
+                    return $this->fetchItemDetails($item->item_id, $item->item_type);
                 });
             })
             ->filter()
             ->reverse();
     }
 
-    private function fetchItemDetails($itemId)
+    private function fetchItemDetails($itemId, $itemType)
     {
-        $url = "https://api.themoviedb.org/3/movie/{$itemId}";
-        $response = Http::withToken(config('services.tmdb.token'))->get($url);
+        $url = $itemType === 'movie' ? "https://api.themoviedb.org/3/movie/{$itemId}" : "https://api.themoviedb.org/3/tv/{$itemId}";
 
-        if (!$response->successful()) {
-            $url = "https://api.themoviedb.org/3/tv/{$itemId}";
-            $response = Http::withToken(config('services.tmdb.token'))->get($url);
-        }
+        $response = Http::withToken(config('services.tmdb.token'))->get($url);
 
         return $response->successful() ? $response->json() : null;
     }

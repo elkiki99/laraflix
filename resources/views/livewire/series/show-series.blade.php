@@ -82,7 +82,7 @@ new class extends Component {
             class="absolute top-0 left-0 object-cover w-full h-full" alt="{{ $series['name'] }}">
         <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
 
-        <div class="flex items-end justify-start h-[80vh]">
+        <div x-cloak class="flex items-end justify-start h-[80vh]">
             <div class="relative p-4 text-white">
                 <div class="space-y-2">
                     <h2 class="font-bold text-7xl">{{ $series['name'] }}</h2>
@@ -109,10 +109,10 @@ new class extends Component {
         </div>
     </div>
 
-    <div class="relative h-full mx-auto bg-black max-w-7xl">
+    <div x-cloak class="relative h-full mx-auto bg-black max-w-7xl">
         <div class="max-w-4xl px-4 space-y-1 text-gray-300">
             <!-- Add to watchlist -->
-            <livewire:components.toggle-watchlist-on-header :itemId="$series['id']" />
+            <livewire:components.toggle-watchlist-on-header :itemType="'series'" :itemId="$series['id']" />
             
             <!-- Overview -->
             @if ($series['overview'])

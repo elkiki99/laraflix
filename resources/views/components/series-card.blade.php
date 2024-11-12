@@ -30,7 +30,7 @@
 
                 <x-slot name="content">
                     <x-dropdown-link>
-                        <livewire:components.toggle-watchlist :itemId="$series['id']" :key="$series['id']" />
+                        <livewire:components.toggle-watchlist :itemId="$series['id']" :itemType="'series'" :key="$series['id']" />
                     </x-dropdown-link>
 
                     <x-dropdown-link href="{{ route('series.show', $series['id']) }}">

@@ -6,11 +6,13 @@ use App\Models\Watchlist;
 
 new class extends Component {
     public $itemId;
+    public $itemType;
     public $inWatchlist;
 
-    public function mount($itemId)
+    public function mount($itemId, $itemType)
     {
         $this->itemId = $itemId;
+        $this->itemType = $itemType;
         $this->inWatchlist = Auth::user()->watchlist->pluck('item_id')->contains($itemId);
     }
 
@@ -18,6 +20,7 @@ new class extends Component {
     {
         Watchlist::create([
             'user_id' => Auth::id(),
+            'item_type' => $this->itemType,
             'item_id' => $this->itemId,
         ]);
         $this->inWatchlist = true;
@@ -27,6 +30,7 @@ new class extends Component {
     {
         Watchlist::where('user_id', Auth::id())
             ->where('item_id', $this->itemId)
+            ->where('item_type', $this->itemType)
             ->delete();
         $this->inWatchlist = false;
     }

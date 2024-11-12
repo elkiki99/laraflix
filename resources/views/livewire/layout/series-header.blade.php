@@ -31,7 +31,7 @@ new class extends Component {
     }
 }; ?>
 
-<div class="min-h-screen">
+<div class="min-h-[screen]">
     <div x-data="{
             slides: {{ json_encode($trendingSeries) }},
             currentSlideIndex: 0,

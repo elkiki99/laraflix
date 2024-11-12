@@ -11,6 +11,7 @@ class Watchlist extends Model
     protected $fillable = [
         'user_id',
         'item_id',
+        'item_type',
     ];
 
     public function user()
