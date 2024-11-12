@@ -4,17 +4,14 @@ use Livewire\Volt\Component;
 
 new class extends Component {
     public $popularMovies = [];
-
+    
     public function loadPopularMovies()
     {
-        $response = Http::withToken(config('services.tmdb.token'))->get(config('services.tmdb.url') . 'movie/popular');
-
-        if ($response->successful() && $response->json()['results']) {
-            $this->popularMovies = collect($response->json()['results'])->shuffle();
-        } else {
-            $this->popularMovies = collect();
-        }
-
+        // dd(config('services.tmdb.token'));
+        
+        $this->popularMovies = Cache::remember('popular_movies', 3600, function () {
+            return collect(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/movie/popular')->json()['results'])->shuffle();
+        });
         $this->dispatch('livewireFetchedData');
     }
 }; ?>
