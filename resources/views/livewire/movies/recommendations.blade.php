@@ -28,7 +28,7 @@ new class extends Component {
 <div class="" x-intersect.once="$wire.loadRecommendations()">
     @if (isset($recommendations['results']) || count($recommendations) > 0)
         <div class="swiper">
-            <h2 class="my-4 text-2xl font-bold text-white">Recommended</h2>
+            <h2 class="my-4 text-xl font-medium text-white">Recommended</h2>
 
             <div class="swiper-wrapper">
                 @if (isset($recommendations['results']))

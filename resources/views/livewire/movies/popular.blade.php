@@ -6,9 +6,7 @@ new class extends Component {
     public $popularMovies = [];
     
     public function loadPopularMovies()
-    {
-        // dd(config('services.tmdb.token'));
-        
+    {        
         $this->popularMovies = Cache::remember('popular_movies', 3600, function () {
             return collect(Http::withToken(config('services.tmdb.token'))->get('https://api.themoviedb.org/3/movie/popular')->json()['results'])->shuffle();
         });
@@ -17,7 +15,7 @@ new class extends Component {
 }; ?>
 
 <div class="swiper" x-intersect.once="$wire.loadPopularMovies()">
-    <h2 class="my-4 text-2xl font-bold text-white">Popular</h2>
+    <h2 class="my-4 text-xl font-medium text-white">Popular</h2>
     <div class="swiper-wrapper">
         @foreach ($popularMovies as $index => $movie)
             <div class="swiper-slide">

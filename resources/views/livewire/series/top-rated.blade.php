@@ -15,7 +15,7 @@ new class extends Component {
 }; ?>
 
 <div class="swiper" x-intersect.once="$wire.loadTopRated()">
-    <h2 class="my-4 text-2xl font-bold text-white">Top rated</h2>
+    <h2 class="my-4 text-xl font-medium text-white">Top rated</h2>
 
     <div class="swiper-wrapper">
         @foreach ($topRated as $index => $series)

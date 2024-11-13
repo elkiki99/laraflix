@@ -15,7 +15,7 @@ new class extends Component {
 }; ?>
 
 <div class="swiper" x-intersect.once="$wire.loadNowPlaying()">
-    <h2 class="my-4 text-2xl font-bold text-white">Now playing</h2>
+    <h2 class="my-4 text-xl font-medium text-white">Now playing</h2>
 
     <div class="swiper-wrapper">
         @foreach ($nowPlaying as $index => $movie)

@@ -70,7 +70,7 @@ new class extends Component {
     }
 }; ?>
 
-<div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+<div class="mx-auto max-w-7xl">
     <div class="relative">
         <x-text-input wire:model.live.debounce.300ms="query" class="w-full pl-12 font-bold text-white"
             placeholder="Search"></x-text-input>
@@ -81,7 +81,7 @@ new class extends Component {
         </svg>
     </div>
 
-    <div class="grid grid-cols-2 gap-4 mt-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+    <div class="grid grid-cols-3 gap-2 mt-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         @forelse ($allCatalog as $index => $item)
             @if (isset($item['title']))
                 <x-movie-card :movie="$item" :index="$index" :loaded="true" />

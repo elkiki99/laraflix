@@ -28,7 +28,6 @@
 
 <body class="font-sans antialiased">
     <div class="flex flex-col min-h-screen bg-gray-950">
-
         <div class="relative z-50">
             <livewire:layout.navigation class="bg-transparent" />
         </div>

@@ -15,7 +15,7 @@ new class extends Component {
 }; ?>
 
 <div class="swiper" x-intersect.once="$wire.loadAiringToday()">
-    <h2 class="my-4 text-2xl font-bold text-white">Airing today</h2>
+    <h2 class="my-4 text-xl font-medium text-white">Airing today</h2>
 
     <div class="swiper-wrapper">
         @foreach ($airingToday as $index => $series)

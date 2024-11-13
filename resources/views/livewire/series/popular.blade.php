@@ -16,7 +16,7 @@ new class extends Component
 }; ?>
 
 <div class="swiper" x-intersect.once="$wire.loadPopularSeries()">
-    <h2 class="my-4 text-2xl font-bold text-white">Popular series</h2>
+    <h2 class="my-4 text-xl font-medium text-white">Popular series</h2>
 
     <div class="swiper-wrapper">
         @foreach ($popularSeries as $index => $series)

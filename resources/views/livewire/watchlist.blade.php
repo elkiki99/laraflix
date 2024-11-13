@@ -43,8 +43,8 @@ new class extends Component {
     }
 }; ?>
 
-<div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-    <div class="grid grid-cols-2 gap-4 mt-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+<div class="mx-auto max-w-7xl">
+    <div class="grid grid-cols-3 gap-2 mt-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         @forelse($this->watchlist as $index => $item)
             <div wire:key="item-{{ $item['id'] }}">
                 @if (isset($item['title']))

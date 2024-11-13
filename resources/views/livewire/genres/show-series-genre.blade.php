@@ -35,7 +35,7 @@ new class extends Component {
 }; ?>
 
 <div class="swiper">
-    <h2 class="my-4 text-2xl font-bold text-white">{{ $this->genreName }}</h2>
+    <h2 class="my-4 text-xl font-medium text-white">{{ $this->genreName }}</h2>
     <div class="swiper-wrapper">
         @foreach ($series as $index => $serie)
             <div class="swiper-slide">
