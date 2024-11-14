@@ -16,7 +16,7 @@
                 :class="loaded ? 'opacity-100' : 'opacity-0'">
         </a>
 
-        <div class="absolute top-2 right-2">
+        <div class="hidden sm:absolute top-2 right-2">
             <x-dropdown align="top" width="48" class="bg-black bg-opacity-50">
                 <x-slot name="trigger">
                     <button>
@@ -47,5 +47,7 @@
                 </x-slot>
             </x-dropdown>
         </div>
+
+        <livewire:components.toggle-watchlist-on-mobile :itemId="$movie['id']" :itemType="'movie'" :key="$movie['id']" />
     </div>
 </div>
