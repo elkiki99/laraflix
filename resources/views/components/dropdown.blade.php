@@ -8,7 +8,7 @@
     };
 
     $width = match ($width) {
-        '48' => 'w-48',
+        '64' => 'w-64 sm:w-96',
         default => $width,
     };
 @endphp

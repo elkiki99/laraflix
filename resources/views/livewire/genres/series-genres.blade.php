@@ -19,7 +19,7 @@ new class extends Component {
 }; ?>
 
 <div class="inline-flex">
-    <x-dropdown align="left" width="96" class="bg-black w-96 bg-opacity-80">
+    <x-dropdown align="left" width="64" class="bg-black bg-opacity-80">
         <x-slot name="trigger">
             <button
                 class="inline-flex items-center text-sm font-medium leading-4 text-gray-400 transition duration-150 ease-in-out bg-transparent border border-transparent rounded-md hover:text-gray-300 focus:outline-none">
@@ -38,7 +38,7 @@ new class extends Component {
         <x-slot name="content">
             <div class="grid grid-cols-3 gap-1 p-1">
                 @foreach ($seriesGenres as $genre)
-                    <x-dropdown-link href="{{ route('series.genres', $genre['id'])}}" wire:navigate>
+                    <x-dropdown-link class="text-xs sm:text-sm" href="{{ route('series.genres', $genre['id'])}}" wire:navigate>
                         {{ $genre['name'] }}
                     </x-dropdown-link>
                 @endforeach

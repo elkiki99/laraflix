@@ -3,7 +3,9 @@
 
     <div class="px-4 sm:px-6 lg:px-8">
         <!-- Genres -->
-        <livewire:genres.movie-genres />
+        <div class="flex justify-end px-4">
+            <livewire:genres.movie-genres />
+        </div>
         
         <!-- Popular -->
         <livewire:movies.popular />
