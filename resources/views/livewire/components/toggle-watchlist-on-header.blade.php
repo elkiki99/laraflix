@@ -51,10 +51,10 @@ new class extends Component {
     <button @click="inWatchlist = !inWatchlist; $wire.toggleWatchlist()">
         <div class="flex flex-col items-center justify-center ">
             <!-- Plus Icon -->
-            <svg x-show="!inWatchlist" x-transition:enter="transition transform duration-500 ease-in-out"
+            <svg x-show="!inWatchlist" x-transition:enter="transition transform duration-300 ease-in-out"
                 x-transition:enter-start="opacity-0 rotate-180 scale-50"
                 x-transition:enter-end="opacity-100 rotate-0 scale-100"
-                x-transition:leave="transition transform duration-500 ease-in-out"
+                x-transition:leave="transition transform duration-300 ease-in-out"
                 x-transition:leave-start="opacity-100 rotate-0 scale-100"
                 x-transition:leave-end="opacity-0 rotate-180 scale-50" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="absolute w-6 h-6">
@@ -62,10 +62,10 @@ new class extends Component {
             </svg>
 
             <!-- Check Icon -->
-            <svg x-show="inWatchlist" x-transition:enter="transition transform duration-500 ease-in-out"
+            <svg x-show="inWatchlist" x-transition:enter="transition transform duration-300 ease-in-out"
                 x-transition:enter-start="opacity-0 -rotate-180 scale-50"
                 x-transition:enter-end="opacity-100 rotate-0 scale-100"
-                x-transition:leave="transition transform duration-500 ease-in-out"
+                x-transition:leave="transition transform duration-300 ease-in-out"
                 x-transition:leave-start="opacity-100 rotate-0 scale-100"
                 x-transition:leave-end="opacity-0 -rotate-180 scale-50" xmlns="http://www.w3.org/2000/svg"
                 fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="absolute w-6 h-6">

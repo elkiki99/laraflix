@@ -62,60 +62,71 @@ new class extends Component {
 }; ?>
 
 <div class="bg-black">
-    <div class="z-30 w-full h-[90vh] mx-auto max-w-7xl">
+    <div class="z-30 w-full min-h-[70vh] md:min-h-[90vh] mx-auto max-w-7xl">
         <img src="https://image.tmdb.org/t/p/original{{ $movie['backdrop_path'] ?? '' }}"
-            class="absolute top-0 left-0 object-cover w-full h-full" alt="{{ $movie['title'] }}">
-        <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
+            class="absolute top-0 left-0 object-cover w-full md:h-full h-[80vh]" alt="{{ $movie['title'] }}">
+        <div class="absolute inset-0 md:h-full h-[80vh] bg-gradient-to-b from-black via-transparent to-black"></div>
 
-        <div class="flex items-end justify-start h-[80vh]">
+        <!-- Title and description -->
+        <div class="flex items-end justify-start md:min-h-[90vh] min-h-[70vh]">
             <div class="z-10 p-4 text-white">
                 <div class="space-y-2">
-                    <h2 class="font-bold text-7xl">{{ $movie['title'] }}</h2>
+                    <h2 class="text-5xl font-medium md:font-bold md:text-7xl">{{ $movie['title'] }}</h2>
 
-                    <div class="flex items-center gap-3 text-gray-400">
+                    <div class="flex items-center gap-3 text-xs text-gray-300 md:text-lg">
                         <p>{{ $movie['adult'] ? '18+' : '13+' }}</p>
                         <p>{{ floor($movie['runtime'] / 60) }}h {{ $movie['runtime'] % 60 }}min</p>
                         <p>{{ $releaseYear = \Carbon\Carbon::parse($movie['release_date'])->year }}</p>
                     </div>
 
-                    <x-primary-button class="absolute px-16">
-                        <div class="flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                class="text-black size-6">
-                                <path fill-rule="evenodd"
-                                    d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            <p class="font-bold text-black">Watch now</p>
-                        </div>
-                    </x-primary-button>
+                    <div class="pt-2">
+                        <x-primary-button class="px-16">
+                            <div class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                    class="text-black size-6">
+                                    <path fill-rule="evenodd"
+                                        d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <p class="text-xs font-bold text-black md:text-md">Watch now</p>
+                            </div>
+                        </x-primary-button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div x-cloak class="relative h-full pb-10 mx-auto bg-black max-w-7xl">
+    <div x-cloak class="relative h-full mx-auto bg-black max-w-7xl">
         <div class="max-w-4xl px-4 pb-8 space-y-1 text-gray-300">
             <!-- Add to watchlist -->
-            <livewire:components.toggle-watchlist-on-header :itemType="'movie'" :itemId="$movie['id']" />
-            
+            <div class="mt-4">
+                <livewire:components.toggle-watchlist-on-header :itemType="'movie'" :itemId="$movie['id']" />
+            </div>
+
             <!-- Overview -->
             @if ($movie['overview'])
-                <p>{{ $movie['overview'] }}</p>
+                <p class="text-sm text-gray-300 md:text-base">{{ $movie['overview'] }}</p>
             @endif
-            
+
             <!-- Genres -->
             <p class="text-sm text-gray-400">
                 @foreach ($movie['genres'] as $genre)
-                    <a class="hover:cursor-pointer hover:underline" href="{{ route('movies.genres', $genre['id'])}}" wire:navigate>{{ $movieGenres[$genre['id']] ?? '' }}</a>@if(!$loop->last),@endif
+                    <a class="hover:cursor-pointer hover:underline" href="{{ route('movies.genres', $genre['id']) }}"
+                        wire:navigate>{{ $movieGenres[$genre['id']] ?? '' }}</a>
+                    @if (!$loop->last)
+                        ,
+                    @endif
                 @endforeach
             </p>
-            
+
             <!-- Cast -->
             @if ($this->cast)
                 <p class="text-xs text-gray-500">
                     @foreach (array_slice($cast['cast'], 0, 5) as $actor)
-                        {{ $actor['name'] }}@if(!$loop->last),@endif
+                        {{ $actor['name'] }}@if (!$loop->last)
+                            ,
+                        @endif
                     @endforeach
                 </p>
             @endif

@@ -67,7 +67,7 @@ new class extends Component {
                                 <h2 class="text-5xl font-medium md:font-bold md:text-7xl" x-text="slide.title"
                                     x-bind:aria-describedby="'slide' + (index + 1) + 'Title'"></h2>
 
-                                <div class="flex items-center gap-3 text-xs text-gray-300 md:text-lg">
+                                <div class="flex items-center gap-3 text-xs text-gray-300 md:text-base">
                                     <p x-text="slide.description" x-bind:id="'slide' + (index + 1) + 'Description'"></p>
                                 </div>
 

@@ -46,19 +46,18 @@ new class extends Component {
 
 <div class="min-h-[70vh] md:min-h-screen">
     <div x-data="{
-            slides: {{ json_encode($movies) }},
-            currentSlideIndex: 0,
-            next() {
-                this.currentSlideIndex = (this.currentSlideIndex + 1) % this.slides.length;
-            },
-            previous() {
-                this.currentSlideIndex = (this.currentSlideIndex - 1 + this.slides.length) % this.slides.length;
-            }
-        }" 
-        x-init="setInterval(() => previous(), 8000)" 
-        class="absolute inset-0"
-    >
-    <div class="relative md:min-h-screen min-h-[70vh] inset-0 z-20 bg-gradient-to-b from-black via-transparent to-gray-950"></div>
+        slides: {{ json_encode($movies) }},
+        currentSlideIndex: 0,
+        next() {
+            this.currentSlideIndex = (this.currentSlideIndex + 1) % this.slides.length;
+        },
+        previous() {
+            this.currentSlideIndex = (this.currentSlideIndex - 1 + this.slides.length) % this.slides.length;
+        }
+    }" x-init="setInterval(() => previous(), 8000)" class="absolute inset-0">
+        <div
+            class="relative md:min-h-screen min-h-[70vh] inset-0 z-20 bg-gradient-to-b from-black via-transparent to-gray-950">
+        </div>
 
         <!-- Slides -->
         <div class="w-full md:min-h-screen min-h-[70vh]">
@@ -72,7 +71,7 @@ new class extends Component {
                                 <h2 class="text-5xl font-medium md:font-bold md:text-7xl" x-text="slide.title"
                                     x-bind:aria-describedby="'slide' + (index + 1) + 'Description'"></h2>
 
-                                <div class="flex items-center gap-3 text-xs text-gray-300 md:text-lg">
+                                <div class="flex items-center gap-3 text-xs text-gray-300 md:text-base">
                                     <p x-text="slide.description" x-bind:id="'slide' + (index + 1) + 'Description'"></p>
                                 </div>
 
@@ -113,4 +112,3 @@ new class extends Component {
         </div>
     </div>
 </div>
-

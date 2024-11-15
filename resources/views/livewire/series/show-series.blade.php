@@ -77,53 +77,61 @@ new class extends Component {
 }; ?>
 
 <div class="bg-black">
-    <div class="z-30 w-full h-[90vh] mx-auto max-w-7xl">
+    <div class="z-30 w-full min-h-[70vh] md:min-h-[90vh] mx-auto max-w-7xl">
         <img src="https://image.tmdb.org/t/p/original{{ $series['backdrop_path'] ?? '' }}"
-            class="absolute top-0 left-0 object-cover w-full h-full" alt="{{ $series['name'] }}">
-        <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
+            class="absolute top-0 left-0 object-cover w-full md:h-full h-[80vh]" alt="{{ $series['name'] }}">
+        <div class="absolute inset-0 md:h-full h-[80vh] bg-gradient-to-b from-black via-transparent to-black"></div>
 
-        <div x-cloak class="flex items-end justify-start h-[80vh]">
-            <div class="relative p-4 text-white">
+        <!-- Title and description -->
+        <div class="flex items-end justify-start md:min-h-[90vh] min-h-[70vh]">
+            <div class="z-10 p-4 text-white">
                 <div class="space-y-2">
-                    <h2 class="font-bold text-7xl">{{ $series['name'] }}</h2>
+                    <h2 class="text-5xl font-medium md:font-bold md:text-7xl">{{ $series['name'] }}</h2>
 
-                    <div class="flex items-center gap-3 text-gray-400">
+                    <div class="flex items-center gap-3 text-xs text-gray-300 md:text-lg">
                         <p>{{ $series['adult'] ? '18+' : '13+' }}</p>
                         <p>{{ $series['number_of_seasons'] }} seasons</p>
                         <p>{{ $firstAirDate = \Carbon\Carbon::parse($series['first_air_date'])->year }}</p>
                     </div>
 
-                    <x-primary-button class="absolute px-16">
-                        <div class="flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                class="text-black size-6">
-                                <path fill-rule="evenodd"
-                                    d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            <p class="font-bold text-black">Watch now</p>
-                        </div>
-                    </x-primary-button>
+                    <div class="pt-2">
+                        <x-primary-button class="px-16">
+                            <div class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                    class="text-black size-4 md:size-6">
+                                    <path fill-rule="evenodd"
+                                        d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <p class="text-xs font-bold text-black md:text-md">Watch now</p>
+                            </div>
+                        </x-primary-button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <div x-cloak class="relative h-full mx-auto bg-black max-w-7xl">
-        <div class="max-w-4xl px-4 space-y-1 text-gray-300">
+        <div class="max-w-4xl px-4 pb-8 space-y-1 text-gray-300">
             <!-- Add to watchlist -->
-            <livewire:components.toggle-watchlist-on-header :itemType="'series'" :itemId="$series['id']" />
-            
+            <div class="mt-4">
+                <livewire:components.toggle-watchlist-on-header :itemType="'series'" :itemId="$series['id']" />
+            </div>
+
             <!-- Overview -->
             @if ($series['overview'])
-                <p>{{ $series['overview'] }}</p>
+                <p class="text-sm text-gray-300 md:text-base">{{ $series['overview'] }}</p>
             @endif
 
             <!-- Genres -->
             <p class="text-sm text-gray-400">
                 @foreach ($series['genres'] as $genre)
                     <a class="hover:cursor-pointer hover:underline" href="{{ route('series.genres', $genre['id']) }}"
-                        wire:navigate>{{ $seriesGenres[$genre['id']] ?? '' }}</a>@if(!$loop->last),@endif
+                        wire:navigate>{{ $seriesGenres[$genre['id']] ?? '' }}</a>
+                    @if (!$loop->last)
+                        ,
+                    @endif
                 @endforeach
             </p>
 
@@ -131,65 +139,69 @@ new class extends Component {
             @if ($this->cast)
                 <p class="text-xs text-gray-500">
                     @foreach (array_slice($this->cast['cast'], 0, 5) as $actor)
-                        {{ $actor['name'] }}@if(!$loop->last),@endif
+                        {{ $actor['name'] }}@if (!$loop->last)
+                            ,
+                        @endif
                     @endforeach
                 </p>
             @endif
         </div>
 
-        <!-- Seasons -->
-        <div class="px-4 mt-6 mb-20">
-            <div class="inline-flex">
-                <x-dropdown align="left" width="48" class="bg-black bg-opacity-80">
-                    <x-slot name="trigger">
-                        <button
-                            class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-400 transition duration-150 ease-in-out bg-transparent border border-transparent rounded-md hover:text-gray-300 focus:outline-none">
-                            <div x-text="'Season {{ $this->selectedSeason }}'"></div>
+        @if ($this->selectedSeason > 0)
+            <!-- Seasons -->
+            <div class="px-4 mt-6 mb-0">
+                <div class="inline-flex">
+                    <x-dropdown align="left" width="48" class="bg-black bg-opacity-80">
+                        <x-slot name="trigger">
+                            <button
+                                class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-400 transition duration-150 ease-in-out bg-transparent border border-transparent rounded-md hover:text-gray-300 focus:outline-none">
+                                <div x-text="'Season {{ $this->selectedSeason }}'"></div>
 
-                            <div class="ms-1">
-                                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </button>
-                    </x-slot>
+                                <div class="ms-1">
+                                    <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </button>
+                        </x-slot>
 
-                    <x-slot name="content">
-                        @foreach ($series['seasons'] as $season)
-                            <x-dropdown-link wire:click="loadSeasonEpisodes({{ $season['season_number'] }})"
-                                class="px-4 py-2 text-gray-100 rounded">
-                                {{ $season['name'] }}
-                            </x-dropdown-link>
-                        @endforeach
-                    </x-slot>
-                </x-dropdown>
+                        <x-slot name="content">
+                            @foreach ($series['seasons'] as $season)
+                                <x-dropdown-link wire:click="loadSeasonEpisodes({{ $season['season_number'] }})"
+                                    class="px-4 py-2 text-gray-100 rounded">
+                                    {{ $season['name'] }}
+                                </x-dropdown-link>
+                            @endforeach
+                        </x-slot>
+                    </x-dropdown>
+                </div>
+
+                <!-- Episode list -->
+                <div class="z-30 mt-6 overflow-hidden episode-swiper" id="episode-swiper">
+                    @if (count($episodes) > 0)
+                        <div class="swiper-wrapper">
+                            @foreach ($episodes as $episode)
+                                <div class="swiper-slide">
+                                    <x-episode-card :episode="$episode" :series="$series" :selectedSeason="$selectedSeason" />
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <div class="relative z-30 swiper-button-prev"></div>
+                        <div class="relative z-10 swiper-button-next"></div>
+                    @else
+                        <p class="px-3 text-sm text-gray-400">No episodes available.</p>
+                    @endif
+                </div>
             </div>
-            
-            <!-- Episode list -->
-            <div class="z-30 mt-6 overflow-hidden episode-swiper" id="episode-swiper">
-                @if (count($episodes) > 0)
-                    <div class="swiper-wrapper">
-                        @foreach ($episodes as $episode)
-                            <div class="swiper-slide">
-                                <x-episode-card :episode="$episode" :series="$series" :selectedSeason="$selectedSeason" />
-                            </div>
-                        @endforeach
-                    </div>
-
-                    <div class="relative z-30 swiper-button-prev"></div>
-                    <div class="relative z-10 swiper-button-next"></div>
-                @else
-                    <p class="mt-4 text-gray-400">No episodes available.</p>
-                @endif
-            </div>
-        </div>
-
+        @endif
+        
         <!-- Trailer -->
         @if ($trailerUrl)
-            <div class="mx-auto max-w-7xl">
+            <div class="mx-auto mt-10 max-w-7xl">
                 <div class="w-auto h-auto">
                     <iframe src="{{ $trailerUrl }}?autoplay=1" title="{{ $series['name'] }} video" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
