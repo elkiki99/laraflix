@@ -46,8 +46,8 @@ new class extends Component {
     }
 }; ?>
 
-<div class="mx-auto max-w-7xl">
-    <div class="grid grid-cols-3 gap-2 mt-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+<div class="flex flex-col min-h-screen mx-auto max-w-7xl">
+    <div class="grid flex-grow grid-cols-3 gap-2 mt-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         @forelse($this->paginatedWatchlist as $index => $item)
             <div wire:key="item-{{ $item['id'] }}">
                 @if (isset($item['title']))
@@ -61,9 +61,8 @@ new class extends Component {
         @endforelse
     </div>
 
-    <div class="pt-5">
-        @if ($this->paginatedWatchlist->hasMorePages())
-            {{ $this->paginatedWatchlist->links() }}
-        @endif
+    <!-- Contenedor de la paginación -->
+    <div class="pt-5 mt-auto">
+        {{ $this->paginatedWatchlist->links() }}
     </div>
 </div>
