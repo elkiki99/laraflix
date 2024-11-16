@@ -38,7 +38,14 @@
         }
 
         &.swiper-button-next {
+            transform: scale(0.5);
+            top: 25%;
             right: 0;
+        }
+
+        &.swiper-button-prev {
+            transform: scale(0.5);
+            top: 25%;
         }
 
         &.swiper-button-disabled {

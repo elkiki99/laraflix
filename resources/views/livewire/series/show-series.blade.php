@@ -77,13 +77,13 @@ new class extends Component {
 }; ?>
 
 <div class="bg-black">
-    <div class="z-30 w-full min-h-[70vh] md:min-h-[90vh] mx-auto max-w-7xl">
+    <div class="z-30 w-full min-h-[70vh] md:min-h-[75vh] mx-auto max-w-7xl">
         <img src="https://image.tmdb.org/t/p/original{{ $series['backdrop_path'] ?? '' }}"
             class="absolute top-0 left-0 object-cover w-full md:h-full h-[80vh]" alt="{{ $series['name'] }}">
         <div class="absolute inset-0 md:h-full h-[80vh] bg-gradient-to-b from-black via-transparent to-black"></div>
 
         <!-- Title and description -->
-        <div class="flex items-end justify-start md:min-h-[90vh] min-h-[70vh]">
+        <div class="flex items-end justify-start md:min-h-[75vh] min-h-[70vh]">
             <div class="z-10 p-4 text-white">
                 <div class="space-y-2">
                     <h2 class="text-5xl font-medium md:font-bold md:text-7xl">{{ $series['name'] }}</h2>
@@ -112,7 +112,7 @@ new class extends Component {
         </div>
     </div>
 
-    <div x-cloak class="relative h-full mx-auto bg-black max-w-7xl">
+    <div x-cloak class="relative h-full mx-auto max-w-7xl">
         <div class="max-w-4xl px-4 pb-8 space-y-1 text-gray-300">
             <!-- Add to watchlist -->
             <div class="mt-4">

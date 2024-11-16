@@ -1,4 +1,5 @@
 <?php
+
 use Livewire\Volt\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -31,6 +32,8 @@ new class extends Component {
             })
             ->filter()
             ->reverse();
+
+        $this->paginatedWatchlist = $this->watchlist->paginate(12);
     }
 
     private function fetchItemDetails($itemId, $itemType)
@@ -45,7 +48,7 @@ new class extends Component {
 
 <div class="mx-auto max-w-7xl">
     <div class="grid grid-cols-3 gap-2 mt-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-        @forelse($this->watchlist as $index => $item)
+        @forelse($this->paginatedWatchlist as $index => $item)
             <div wire:key="item-{{ $item['id'] }}">
                 @if (isset($item['title']))
                     <x-movie-card :movie="$item" :index="$index" :loaded="true" />
@@ -56,5 +59,11 @@ new class extends Component {
         @empty
             <p class="absolute font-bold text-gray-500 text-7xl center">No movies in your watchlist yet.</p>
         @endforelse
+    </div>
+
+    <div class="pt-5">
+        @if ($this->paginatedWatchlist->hasMorePages())
+            {{ $this->paginatedWatchlist->links() }}
+        @endif
     </div>
 </div>
