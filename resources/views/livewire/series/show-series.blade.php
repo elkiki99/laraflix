@@ -112,10 +112,10 @@ new class extends Component {
         </div>
     </div>
 
-    <div x-cloak class="relative h-full mx-auto max-w-7xl">
+    <div class="relative h-full mx-auto max-w-7xl">
         <div class="max-w-4xl px-4 pb-8 space-y-1 text-gray-300">
             <!-- Add to watchlist -->
-            <div class="mt-4">
+            <div class="mt-4" x-cloak>
                 <livewire:components.toggle-watchlist-on-header :itemType="'series'" :itemId="$series['id']" />
             </div>
 
@@ -128,10 +128,7 @@ new class extends Component {
             <p class="text-sm text-gray-400">
                 @foreach ($series['genres'] as $genre)
                     <a class="hover:cursor-pointer hover:underline" href="{{ route('series.genres', $genre['id']) }}"
-                        wire:navigate>{{ $seriesGenres[$genre['id']] ?? '' }}</a>
-                    @if (!$loop->last)
-                        ,
-                    @endif
+                        wire:navigate>{{ $seriesGenres[$genre['id']] ?? '' }}</a>@if(!$loop->last),@endif
                 @endforeach
             </p>
 
@@ -139,9 +136,7 @@ new class extends Component {
             @if ($this->cast)
                 <p class="text-xs text-gray-500">
                     @foreach (array_slice($this->cast['cast'], 0, 5) as $actor)
-                        {{ $actor['name'] }}@if (!$loop->last)
-                            ,
-                        @endif
+                        {{ $actor['name'] }}@if(!$loop->last),@endif
                     @endforeach
                 </p>
             @endif

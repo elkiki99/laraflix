@@ -82,7 +82,7 @@ new class extends Component {
                     </div>
 
                     <!-- Image -->
-                    <img class="absolute top-0 left-0 object-cover w-full md:h-screen h-[70vh]" alt="slide.imgAlt"
+                    <img loading="eager" class="absolute top-0 left-0 object-cover w-full md:h-screen h-[70vh]" alt="slide.imgAlt"
                         x-bind:src="slide.imgSrc" x-bind:alt="slide.imgAlt">
                 </div>
             </template>

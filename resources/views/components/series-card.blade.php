@@ -2,7 +2,7 @@
 
 <div x-data="{ loaded: @js($loaded) }" wire:remove wire:key="item-{{ $series['id'] }}"
     wire:target='toggle-watchlist,{{ $series['id'] }}'
-    class="max-w-[250px] relative overflow-hidden transition duration-300 bg-gray-800 border border-transparent rounded-sm shadow-md hover:cursor-pointer hover:border-gray-400 hover:shadow-lg hover:shadow-gray-200/50">
+    class="relative w-auto h-auto overflow-hidden transition duration-300 bg-gray-800 border border-transparent rounded-sm shadow-md hover:cursor-pointer hover:border-gray-400 hover:shadow-lg hover:shadow-gray-200/50">
 
     <div class="relative aspect-w-2 aspect-h-3">
         <div class="absolute inset-0 flex items-center justify-center" x-show="!loaded">

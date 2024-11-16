@@ -33,7 +33,7 @@ new class extends Component {
             ->filter()
             ->reverse();
 
-        $this->paginatedWatchlist = $this->watchlist->paginate(12);
+        $this->paginatedWatchlist = $this->watchlist->paginate(60);
     }
 
     private function fetchItemDetails($itemId, $itemType)
@@ -61,7 +61,6 @@ new class extends Component {
         @endforelse
     </div>
 
-    <!-- Contenedor de la paginación -->
     <div class="pt-5 mt-auto">
         {{ $this->paginatedWatchlist->links() }}
     </div>
