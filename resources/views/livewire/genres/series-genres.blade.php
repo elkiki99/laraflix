@@ -19,7 +19,7 @@ new class extends Component {
 }; ?>
 
 <div class="inline-flex">
-    <x-dropdown align="left" width="64" class="bg-black bg-opacity-80">
+    <x-dropdown align="right" width="64" class="bg-black bg-opacity-80">
         <x-slot name="trigger">
             <button
                 class="inline-flex items-center text-sm font-medium leading-4 text-gray-400 transition duration-150 ease-in-out bg-transparent border border-transparent rounded-md hover:text-gray-300 focus:outline-none">
