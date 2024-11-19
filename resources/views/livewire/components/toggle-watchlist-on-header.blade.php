@@ -9,6 +9,7 @@ new class extends Component {
     public $itemType;
     public $inWatchlist;
 
+
     public function mount($itemId, $itemType)
     {
         $this->itemId = $itemId;
@@ -43,7 +44,7 @@ new class extends Component {
             $this->addToWatchlist();
         }
 
-        $this->dispatch('updateWatchlistInRealTime');
+        // $this->dispatch('updateWatchlistInRealTime');
     }
 }; ?>
 

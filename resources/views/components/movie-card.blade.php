@@ -16,8 +16,8 @@
                 :class="loaded ? 'opacity-100' : 'opacity-0'">
         </a>
 
-        <div class="hidden sm:absolute top-2 right-2">
-            <x-dropdown align="top" width="48" class="bg-black bg-opacity-50">
+        <div class="absolute hidden sm:block top-2 right-2">
+            <x-dropdown align="right" width="56" class="bg-black bg-opacity-50">
                 <x-slot name="trigger">
                     <button>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -36,18 +36,16 @@
                     <x-dropdown-link href="{{ route('movies.show', $movie['id']) }}">
                         <div class="flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="size-4">
+                                stroke-width="1.5" stroke="currentColor" class="size-4 sm:size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
                             </svg>
 
-                            <p class="text-xs">More info</p>
+                            <p class="text-xs sm:text-sm">More info</p>
                         </div>
                     </x-dropdown-link>
                 </x-slot>
             </x-dropdown>
         </div>
-
-        <livewire:components.toggle-watchlist-on-mobile :itemId="$movie['id']" :itemType="'movie'" :key="$movie['id']" />
     </div>
 </div>

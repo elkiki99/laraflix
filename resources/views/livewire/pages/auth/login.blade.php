@@ -58,7 +58,7 @@ new #[Layout('layouts.guest')] class extends Component {
             </div>
         </div>  
 
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col items-center justify-between space-y-2 md:flex-row md:space-y-0 md:space-x-4">
             <!-- Remember Me -->
             <label for="remember" class="inline-flex items-center">
                 <input wire:model="form.remember" id="remember" type="checkbox"
@@ -66,7 +66,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     name="remember">
                 <span class="text-sm text-gray-400 ms-2">{{ __('Remember me') }}</span>
             </label>
-
+        
             <!-- Forgot your password? -->
             @if (Route::has('password.request'))
                 <a class="text-sm text-gray-400 underline rounded-md hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800"

@@ -15,7 +15,7 @@ new class extends Component {
         $this->loadWatchlist();
     }
 
-    public function watchlistUpdated($inWatchlist)
+    public function watchlistUpdated($inWatchlist, $itemId, $itemType)
     {
         $this->loadWatchlist();
     }

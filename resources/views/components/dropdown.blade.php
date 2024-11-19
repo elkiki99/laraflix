@@ -8,9 +8,9 @@
     };
 
     $width = match ($width) {
-        '64' => 'w-64 sm:w-96',
+        '56' => 'w-48',
         '36' => 'w-36',
-        default => $width,
+        default => "w-64",
     };
 @endphp
 
@@ -24,7 +24,7 @@
         x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
         class="absolute z-50  {{ $width }} {{ $class }} rounded-md shadow-lg backdrop-blur-sm {{ $alignmentClasses }}"
         style="display: none">
-        <div class="rounded-md ring-1 ring-black ring-opacity-5 {{ $contentClasses }}">
+        <div class="rounded-md ring-1 ring-black ring-opacity-5 overflow-y-auto max-h-64 {{ $contentClasses }}">
             {{ $content }}
         </div>
     </div>

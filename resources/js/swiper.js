@@ -27,6 +27,10 @@ Livewire.on("livewireFetchedData", () => {
                     slidesPerView: 6,
                     slidesPerGroup: 5,
                 },
+                1440: {
+                    slidesPerView: 7,
+                    slidesPerGroup: 5,
+                }
             },
         });
     }, 0);
