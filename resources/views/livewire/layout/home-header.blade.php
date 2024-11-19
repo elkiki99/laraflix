@@ -53,6 +53,8 @@ new class extends Component {
             this.currentSlideIndex = (this.currentSlideIndex - 1 + this.slides.length) % this.slides.length;
         }
     }" x-init="setInterval(() => previous(), 8000)" class="absolute inset-0">
+    
+        <!-- Background Gradient -->
         <div class="relative md:min-h-screen min-h-[70vh] inset-0 z-20 bg-gradient-to-b from-black via-transparent to-gray-950"></div>
 
         <!-- Slides -->
@@ -63,7 +65,7 @@ new class extends Component {
                     <!-- Title and description -->
                     <div class="flex items-end justify-start md:min-h-[90vh] min-h-[80vh] mx-auto max-w-7xl">
                         <div class="z-30 p-4 text-white">
-                            <div class="space-y-2">
+                            <div class="space-y-2 max-w-[80%]">
                                 <h2 class="text-5xl font-medium md:font-bold md:text-7xl" x-text="slide.title"
                                     x-bind:aria-describedby="'slide' + (index + 1) + 'Title'"></h2>
 
