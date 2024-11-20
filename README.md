@@ -7,9 +7,9 @@
 
 - **Responsive Design**: Crafted with Tailwind CSS to ensure a beautiful and adaptive user experience across all devices.
 - **Dynamic Content**: Real-time updates powered by Livewire for a smooth and seamless browsing experience.
-- **TMDB API Integration**: Fetch detailed movie and TV show information, including genres, ratings, and more.
+- **TMDB API Integration**: Fetch detailed movie and TV show information, including genres, and more.
 - **Favorites and Watchlists**: Allow users to create personalized watchlists and mark their favorite movies and TV shows.
-- **Search and Filters**: Powerful search functionality with advanced filters to find content by genre, release year, or popularity.
+- **Search and Filters**: Powerful search functionality with advanced filters to find content by name or filtering by genre.
 - **Dynamic Content Management**: Livewire enables dynamic updates without page reloads, ensuring a smooth user experience.
 - **Security and Scalability**: Built on Laravel, ensuring high security and scalability for user data and interactions.
 - **Customizable UI**: Tailored components for easy customization to fit your brand's look and feel.
