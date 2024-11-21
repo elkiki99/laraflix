@@ -64,3 +64,8 @@ For any inquiries, please reach out at brossani23@gmail.com.
 ## Demo
 
 http://laraflix.fly.dev/
+
+Test credentials:
+
+Email: guest@example.com
+Password: password
