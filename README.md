@@ -67,5 +67,5 @@ http://laraflix.fly.dev/
 
 Test credentials:
 
-Email: guest@example.com
-Password: password
+- Email: guest@example.com
+- Password: password
