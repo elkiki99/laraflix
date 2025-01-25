@@ -24,7 +24,7 @@ To use **Laraflix**, follow these steps:
 
     ```bash
     git clone https://github.com/elkiki99/laraflix
-    cd chats
+    cd laraflix
     ```
 
 3. **Install the dependencies:**
